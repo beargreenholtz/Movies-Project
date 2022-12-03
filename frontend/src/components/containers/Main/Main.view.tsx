@@ -18,6 +18,7 @@ interface IProps {
 	videos: any;
 	isInit: boolean;
 	onDeletePlace: any;
+	isError: string;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -25,6 +26,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		<>
 			<MModal show={props.showModal} onCancel={props.onCancel}>
 				<form className={classes.videoForm} onSubmit={props.onSubmit}>
+					{props.isError && <span className={classes.error}>{props.isError}</span>}
 					<label htmlFor="title">Video Name:</label>
 					<input type="text" id="title" name="title" ref={props.titleRef} />
 					<label htmlFor="genre">genre:</label>
