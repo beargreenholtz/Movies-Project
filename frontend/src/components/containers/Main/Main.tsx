@@ -11,19 +11,20 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const auth = useContext(AuthContext);
 	const [videos, setVideos] = useState<[]>();
 	const [isInit, setIsInit] = useState<boolean>(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
+	const [isError, setIsError] = useState<string>('');
 
 	const titleRef = useRef<HTMLInputElement | null>(null);
 	const genreRef = useRef<HTMLInputElement | null>(null);
 	const vidurlRef = useRef<HTMLInputElement | null>(null);
 	const descriptionRef = useRef<HTMLInputElement | null>(null);
 
-	const [showModal, setShowModal] = useState(false);
-
 	const openModalHandler = () => {
 		setShowModal(true);
 	};
 	const closeModalHandler = () => {
 		setShowModal(false);
+		setIsError('');
 	};
 
 	const onSubmit = async (e: React.FormEvent) => {
@@ -46,7 +47,11 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			closeModalHandler();
 			video = '';
 		} catch (err) {
-			console.log(err);
+			if (!auth.token) {
+				setIsError('Login to create a video');
+			} else {
+				setIsError('Invalid Inputs');
+			}
 		}
 	};
 
@@ -80,6 +85,7 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			showModal={showModal}
 			videos={videos}
 			isInit={isInit}
+			isError={isError}
 			onCancel={closeModalHandler}
 			onClick={openModalHandler}
 			onSubmit={onSubmit}
