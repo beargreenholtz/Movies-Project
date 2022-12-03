@@ -8,7 +8,7 @@ import classes from './SignInForm.module.scss';
 
 interface IProps {
 	onSubmit: (_: FormikValues) => void | Promise<any>;
-	isError: boolean;
+	error: string;
 }
 
 interface MyFormValues {
@@ -23,7 +23,6 @@ const SignInFormView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>
 			<MCard>
 				<h1 className={classes.signInText}>Login</h1>
 				<div className={classes.signInCard}>
-					{props.isError && <p>Invalid Carditinal</p>}
 					<Formik initialValues={{ name: '', email: '' }} onSubmit={props.onSubmit}>
 						<Form className={classes.signInform}>
 							<label htmlFor="email">Email</label>
@@ -34,6 +33,7 @@ const SignInFormView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>
 						</Form>
 					</Formik>
 				</div>
+				{props.error && <p className={classes.inputError}>{props.error}</p>}
 			</MCard>
 		</section>
 	);
