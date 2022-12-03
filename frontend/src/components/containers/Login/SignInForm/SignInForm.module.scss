@@ -1,0 +1,64 @@
+.signInText {
+    position: absolute;
+    font-size: 30px;
+}
+
+.signInCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 500px;
+    align-items: center;
+
+}
+
+.signInform {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin: 20px;
+
+    & input {
+        width: 100%;
+        padding: 16px;
+        background-color: #f7eded;
+        border: none;
+        margin-bottom: 16px;
+        font-size: 14px;
+        border: 2px solid #a0aec0;
+        box-sizing: border-box;
+    }
+
+    & textarea {
+        width: 100%;
+        padding: 16px;
+        background-color: #f7eded;
+        border: none;
+        margin-bottom: 16px;
+        font-size: 14px;
+        border: 2px solid #a0aec0;
+        box-sizing: border-box;
+        height: 150px;
+    }
+
+    & button {
+        background-color: #720000;
+        color: #ffffff;
+        font-size: 14px;
+        border: none;
+        padding: 16px;
+        width: 100%;
+    }
+
+    & label {
+        font-size: 15px;
+    }
+
+
+}
+
+.container {
+    display: flex;
+    margin: auto;
+}

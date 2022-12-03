@@ -1,0 +1,102 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    width: 100%;
+    width: -webkit-fill-available;
+    height: 100%;
+    height: -webkit-fill-available;
+    overflow-x: hidden;
+    font-size: 10px;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    font-family: 'Archivo', sans-serif;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(90, 92, 106, 1) 0%, rgba(32, 45, 58, 1) 81.3%);
+}
+
+main {
+    height: 100%;
+}
+
+input,
+select,
+textarea,
+button {
+    font-family: inherit;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    white-space: pre-line;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+img {
+    vertical-align: middle;
+}
+
+p {
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+button {
+    padding: 0;
+    user-select: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
+
+    &:enabled {
+        cursor: pointer;
+    }
+}
+
+a {
+    cursor: pointer;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
+textarea {
+    border: none;
+    outline: none;
+}
+
+menu {
+    padding: 0;
+}
+
+hr {
+    margin: 0;
+    border: none;
+}

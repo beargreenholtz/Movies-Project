@@ -1,0 +1,29 @@
+.mainHeaderTitles {
+    color: white;
+    font-size: 30px;
+}
+
+
+.logo {
+    filter: invert(100%);
+    height: 50px;
+    width: 50px;
+}
+
+.logoAndText {
+    display: flex;
+    align-items: baseline
+}
+
+.signindiv {
+    display: flex;
+
+}
+
+.login {
+    margin-right: 10px;
+}
+
+.logoNav {
+    text-decoration: none;
+}

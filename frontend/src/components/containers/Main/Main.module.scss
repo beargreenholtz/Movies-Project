@@ -1,0 +1,81 @@
+.container {
+    height: 200px;
+    width: 100%;
+
+    & .addMovieBtn {
+        position: fixed;
+        right: 20px;
+        bottom: 30px;
+        background-color: #720000;
+        color: #ffffff;
+        font-size: 14px;
+        border: none;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+
+.videoForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    & input {
+        width: 50%;
+        padding: 16px;
+        background-color: #f7eded;
+        border: none;
+        margin-bottom: 16px;
+        font-size: 14px;
+        border: 2px solid #a0aec0;
+        box-sizing: border-box;
+        color: black;
+    }
+
+    & textarea {
+        width: 50%;
+        height: 150px;
+        padding: 12px 20px;
+        box-sizing: border-box;
+        border: 2px solid #a0aec0;
+        background-color: #f8f8f8;
+        font-size: 16px;
+        resize: none;
+    }
+
+    & .addMovieBtn {
+        margin-top: 20px;
+        background-color: #720000;
+        color: #ffffff;
+        font-size: 14px;
+        border: none;
+        padding: 16px;
+        width: 50%;
+    }
+
+    & label {
+        font-size: 15px;
+    }
+
+
+}
+
+.creator {
+    display: hidden;
+}
+
+
+
+.fetchButton {
+    position: fixed;
+    right: 150px;
+    bottom: 30px;
+    background-color: #720000;
+    color: #ffffff;
+    font-size: 14px;
+    border: none;
+    width: 100px;
+    height: 50px;
+}
