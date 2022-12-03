@@ -9,6 +9,7 @@ interface IProps {
 	genre: string;
 	vidurl: string;
 	creator: string;
+	userId: string | null;
 	showVidModal: boolean;
 	id: string;
 	onClick: () => void | React.MouseEventHandler<HTMLButtonElement>;
@@ -54,9 +55,11 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 				<button type="button" className={classes.watchVidBtn} onClick={props.onClick}>
 					click here to watch
 				</button>
-				<button type="button" className={classes.deleteBtn} onClick={props.onDelete}>
-					Delete
-				</button>
+				{props.creator === props.userId && (
+					<button type="button" className={classes.deleteBtn} onClick={props.onDelete}>
+						Delete
+					</button>
+				)}
 			</div>
 
 			{props.showVidModal && (

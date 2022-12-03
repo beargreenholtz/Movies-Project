@@ -39,6 +39,8 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		} catch (err) {}
 	};
 
+	const userId = auth.userId;
+
 	return (
 		<IntroView
 			title={props.title}
@@ -48,6 +50,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			creator={props.creator}
 			id={props.id}
 			showVidModal={showVidModal}
+			userId={auth.userId}
 			onClick={showVid}
 			onCancel={closeVid}
 			onDelete={onDelete}
