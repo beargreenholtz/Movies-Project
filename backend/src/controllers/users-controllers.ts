@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+import nodemailer from 'nodemailer';
+
 import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 
 import { RequestHandler } from 'express';
@@ -101,6 +103,29 @@ const signup: RequestHandler = async (req, res, next) => {
     const error = new HttpError('Signing up failed, please try again.', 500);
     return next(error);
   }
+
+  const transporter = await nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'moviesnowproject@gmail.com',
+      pass: 'bqpdwdyngvbhhvap',
+    },
+  });
+
+  const mailOptions = {
+    from: 'moviesnowproject@gmail.com',
+    to: email,
+    subject: 'Welcome to Moviesnow',
+    html: '<img src="https://media.istockphoto.com/id/672526776/photo/cheddar-cheese-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=T6ykJOn4asR7Z21IG9D-ZdNUhEAHFW14lyqeq6a8io0=" alt="Chedder">',
+  };
+
+  await transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
   res
     .status(201)
