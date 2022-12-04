@@ -54,11 +54,13 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				if (userId) {
 					setIsLiked(true);
 				}
+				if (isLiked) {
+					setIsLiked(false);
+				}
 			});
 		} catch (err) {
 			console.log(err);
 		}
-		
 	};
 	useEffect(() => {
 		if (props.userliked.includes(userId)) {
