@@ -14,6 +14,8 @@ interface IProps {
 	id: string;
 	onClick: () => void | React.MouseEventHandler<HTMLButtonElement>;
 	onCancel: () => void;
+	onLike: any;
+	isLiked: boolean;
 	onDelete: any;
 }
 
@@ -31,6 +33,16 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 	return (
 		<li className={classes.container}>
 			<div className={classes.movieCard} id="bright">
+				{props.creator !== props.userId && (
+					<div className={classes.placement}>
+						<div
+							className={
+								props.isLiked ? `${classes.heart}  ${classes.isActive}` : classes.heart
+							}
+							onClick={props.onLike}
+						/>
+					</div>
+				)}
 				<div className={classes.infoSection}>
 					<div className={classes.movieHeader}>
 						<img

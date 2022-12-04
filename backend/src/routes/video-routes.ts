@@ -13,6 +13,8 @@ router.get('/:vid', videoController.getVideoById);
 
 router.get('/user/:uid', videoController.getVideosByUserId);
 
+router.post('/addLike/:vid', videoController.addLike);
+
 router.use(checkAuth);
 
 router.post(
