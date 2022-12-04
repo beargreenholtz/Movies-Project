@@ -11,6 +11,7 @@ const NavLinks: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 
 	const onClick = () => {
 		auth.logout();
+		window.location.reload();
 	};
 	return <NavLinksView onClick={onClick} />;
 };

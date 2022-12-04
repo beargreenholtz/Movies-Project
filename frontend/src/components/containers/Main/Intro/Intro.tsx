@@ -51,11 +51,14 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
 				console.log(res);
 				console.log(res.data);
-				setIsLiked(true);
+				if (userId) {
+					setIsLiked(true);
+				}
 			});
 		} catch (err) {
 			console.log(err);
 		}
+		
 	};
 	useEffect(() => {
 		if (props.userliked.includes(userId)) {
