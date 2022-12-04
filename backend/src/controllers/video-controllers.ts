@@ -202,14 +202,15 @@ const addLike: RequestHandler = async (req, res, next) => {
   console.log(JSON.stringify(video.creator) === `"${userId}"`);
 
   if (userId) {
-    if (!video.userliked.includes(userId) && JSON.stringify(video.creator) === `"${userId}"` === false) {
+    if (video.userliked.includes(userId)) {
       try {
         mongoose.set('useFindAndModify', false);
         Video.findOneAndUpdate(
           { _id: videoId },
-          { $inc: { likeCounter: 1 } },
+          { $inc: { likeCounter: -1 } },
           { new: true },
           function (err: any, response: any) {
+            console.log('decremented by 1');
             // do something
             // console.log(err + response);
           }
@@ -217,7 +218,7 @@ const addLike: RequestHandler = async (req, res, next) => {
 
         Video.findOneAndUpdate(
           { _id: videoId },
-          { $push: { userliked: userId } },
+          { $pull: { userliked: userId } },
           function (error: any, success: any) {
             if (error) {
             } else {
@@ -232,12 +233,45 @@ const addLike: RequestHandler = async (req, res, next) => {
         return next(error);
       }
     } else {
-      const error = new HttpError('You cant like two times', 400);
-      return next(error);
+      if ((JSON.stringify(video.creator) === `"${userId}"`) === false) {
+        try {
+          mongoose.set('useFindAndModify', false);
+          Video.findOneAndUpdate(
+            { _id: videoId },
+            { $inc: { likeCounter: 1 } },
+            { new: true },
+            function (err: any, response: any) {
+              // do something
+              // console.log(err + response);
+            }
+          );
+
+          Video.findOneAndUpdate(
+            { _id: videoId },
+            { $push: { userliked: userId } },
+            function (error: any, success: any) {
+              if (error) {
+              } else {
+              }
+            }
+          );
+        } catch (err) {
+          const error = new HttpError(
+            'Something went wrong, could not add like to the video.',
+            500
+          );
+          return next(error);
+        }
+      } else {
+        const error = new HttpError('You cant like two times', 400);
+        return next(error);
+      }
     }
   }
   res.status(200).json({ message: 'like added' });
 };
+
+const undoLike: RequestHandler = async (req, res, next) => {};
 
 exports.getVideoById = getVideoById;
 exports.getVideosByUserId = getVideosByUserId;
