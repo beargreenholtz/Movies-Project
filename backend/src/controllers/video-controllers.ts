@@ -104,6 +104,7 @@ const createVideo: RequestHandler = async (req, res, next) => {
     genre,
     vidurl,
     creator,
+    likeCounter: 0,
   });
 
   let user;
@@ -187,8 +188,60 @@ const deleteVideo: RequestHandler = async (
   res.status(200).json({ message: 'Deleted video.' });
 };
 
+const addLike: RequestHandler = async (req, res, next) => {
+  const userId = req.body.userId;
+  const videoId = req.params.vid;
+  let video;
+  try {
+    video = await Video.findById(videoId);
+  } catch (err) {
+    const error = new HttpError('finding video failed', 500);
+    return next(error);
+  }
+
+  console.log(JSON.stringify(video.creator) === `"${userId}"`);
+
+  if (userId) {
+    if (!video.userliked.includes(userId) && JSON.stringify(video.creator) === `"${userId}"` === false) {
+      try {
+        mongoose.set('useFindAndModify', false);
+        Video.findOneAndUpdate(
+          { _id: videoId },
+          { $inc: { likeCounter: 1 } },
+          { new: true },
+          function (err: any, response: any) {
+            // do something
+            // console.log(err + response);
+          }
+        );
+
+        Video.findOneAndUpdate(
+          { _id: videoId },
+          { $push: { userliked: userId } },
+          function (error: any, success: any) {
+            if (error) {
+            } else {
+            }
+          }
+        );
+      } catch (err) {
+        const error = new HttpError(
+          'Something went wrong, could not add like to the video.',
+          500
+        );
+        return next(error);
+      }
+    } else {
+      const error = new HttpError('You cant like two times', 400);
+      return next(error);
+    }
+  }
+  res.status(200).json({ message: 'like added' });
+};
+
 exports.getVideoById = getVideoById;
 exports.getVideosByUserId = getVideosByUserId;
 exports.createVideo = createVideo;
 exports.deleteVideo = deleteVideo;
 exports.getAllVideos = getAllVideos;
+exports.addLike = addLike;

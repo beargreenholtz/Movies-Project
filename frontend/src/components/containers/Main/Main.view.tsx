@@ -59,6 +59,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 								genre={video.genre}
 								vidurl={video.vidurl}
 								creator={video.creator}
+								userliked={video.userliked}
 								onDelete={props.onDeletePlace}
 							/>
 						))}
