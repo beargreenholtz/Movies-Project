@@ -17,6 +17,8 @@ interface IProps {
 	onLike: any;
 	isLiked: boolean;
 	onDelete: any;
+	likeCounter: number;
+	isDisabled: boolean;
 }
 
 const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -35,12 +37,15 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 			<div className={classes.movieCard} id="bright">
 				{props.creator !== props.userId && (
 					<div className={classes.placement}>
-						<div
+						<button
+							type="button"
 							className={
 								props.isLiked ? `${classes.heart}  ${classes.isActive}` : classes.heart
 							}
+							disabled={props.isDisabled ? true : false}
 							onClick={props.onLike}
 						/>
+						<span className={classes.likeCounter}>{props.likeCounter}</span>
 					</div>
 				)}
 				<div className={classes.infoSection}>

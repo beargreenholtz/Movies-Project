@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import { AuthContext } from '../../../../context/authContext';
 
 import IntroView from './Intro.view';
@@ -11,6 +11,7 @@ interface IProps {
 	vidurl: string;
 	creator: string;
 	userliked: [_: string | null];
+	likeCounter: number;
 	id: string;
 	onDelete: (_: string) => void;
 }
@@ -18,7 +19,10 @@ interface IProps {
 const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const [showVidModal, setShowVidModal] = useState<boolean>(false);
 	const [isLiked, setIsLiked] = useState<boolean>(false);
+	const [isDisabled, setDisabled] = useState<boolean>(false);
 	const auth = useContext(AuthContext);
+
+	const buttonRef = useRef(null);
 
 	const showVid = () => {
 		setShowVidModal(true);
@@ -47,21 +51,26 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	};
 
 	const onLike = async () => {
-		try {
-			await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
-				console.log(res);
-				console.log(res.data);
-				if (userId) {
-					setIsLiked(true);
-				}
-				if (isLiked) {
-					setIsLiked(false);
-				}
-			});
-		} catch (err) {
-			console.log(err);
-		}
+		setDisabled(true);
+		setTimeout(async () => {
+			try {
+				await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
+					console.log(res);
+					console.log(res.data);
+					if (userId) {
+						setIsLiked(true);
+					}
+					if (isLiked) {
+						setIsLiked(false);
+					}
+				});
+			} catch (err) {
+				console.log(err);
+			}
+			setDisabled(false);
+		}, 400);
 	};
+
 	useEffect(() => {
 		if (props.userliked.includes(userId)) {
 			setIsLiked(true);
@@ -76,9 +85,11 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			vidurl={props.vidurl}
 			creator={props.creator}
 			id={props.id}
+			likeCounter={props.likeCounter}
 			showVidModal={showVidModal}
 			userId={auth.userId}
 			isLiked={isLiked}
+			isDisabled={isDisabled}
 			onClick={showVid}
 			onCancel={closeVid}
 			onDelete={onDelete}
