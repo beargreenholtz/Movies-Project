@@ -1,4 +1,7 @@
 const express = require('express');
+
+var cors = require('cors');
+
 // const { check } = require('express-validator');
 
 import checkAuth = require('../middleware/check-auth');

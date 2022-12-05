@@ -1,9 +1,12 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 
+import openSocket, { io } from 'socket.io-client';
+
 import axios from 'axios';
 
 import { AuthContext } from '../../../context/authContext';
 import MainView from './Main.view';
+const socket = io('http://localhost:5000');
 
 interface IProps {}
 
@@ -13,6 +16,8 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const [isInit, setIsInit] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [isError, setIsError] = useState<string>('');
+	const [notificationData, setNotificationData] = useState<any>({});
+	const [showNoti, setShowNoti] = useState<boolean>(false);
 
 	const titleRef = useRef<HTMLInputElement | null>(null);
 	const genreRef = useRef<HTMLInputElement | null>(null);
@@ -66,9 +71,25 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		}
 	}, [videos]);
 
-	// const onDelete = () => {
-	// 	setVideos(videos?.filter());
-	// };
+	useEffect(() => {
+		const eventListener = (data: any) => {
+			setNotificationData(data);
+
+			if (auth.userId === data.vidCreator) {
+				setShowNoti(true);
+			}
+
+			setTimeout(() => {
+				setShowNoti(false);
+			}, 10000);
+		};
+
+		socket.on('likes', eventListener);
+
+		return () => {
+			socket.off('likes', eventListener);
+		};
+	}, [socket]);
 
 	const placeDeletedHandler = (deletedPlaceId: string) => {
 		setVideos((prevPlaces: any) =>
@@ -86,6 +107,8 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			videos={videos}
 			isInit={isInit}
 			isError={isError}
+			notificaitonData={notificationData}
+			showNoti={showNoti}
 			onCancel={closeModalHandler}
 			onClick={openModalHandler}
 			onSubmit={onSubmit}
