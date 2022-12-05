@@ -55,8 +55,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		setTimeout(async () => {
 			try {
 				await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
-					console.log(res);
-					console.log(res.data);
+			
 					if (userId) {
 						setIsLiked(true);
 					}
@@ -68,7 +67,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				console.log(err);
 			}
 			setDisabled(false);
-		}, 400);
+		}, 200);
 	};
 
 	useEffect(() => {

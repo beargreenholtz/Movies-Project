@@ -19,6 +19,8 @@ interface IProps {
 	isInit: boolean;
 	onDeletePlace: any;
 	isError: string;
+	notificaitonData: any;
+	showNoti: boolean;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -48,6 +50,18 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			<section className={classes.container}>
 				<MainNavigation />
 
+				{props.showNoti && (
+					<div className={classes.notification}>
+						<div className={classes.content}>
+							<div className={classes.conttextent}>
+								{props.notificaitonData.likeUserName +
+									' Liked Your Post ' +
+									props.notificaitonData.likedVideoTitle}
+							</div>
+						</div>
+					</div>
+				)}
+
 				{props.isInit && (
 					<ul>
 						{props.videos.map((video: any) => (
@@ -66,6 +80,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 						))}
 					</ul>
 				)}
+
 				<button className={classes.addMovieBtn} type="button" onClick={props.onClick}>
 					Add Movie
 				</button>

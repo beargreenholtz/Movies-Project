@@ -50,7 +50,12 @@ mongoose
     'mongodb+srv://manu:SB98ECyaW936NtBF@cluster0.0evekc9.mongodb.net/movies?retryWrites=true&w=majority'
   )
   .then(() => {
-    app.listen(5000);
+    const server = app.listen(5000);
+    var io = require('./socket').init(server);
+
+    io.on('connection', (socket: any) => {
+      console.log('client connected');
+    });
   })
   .catch((err?: Error) => {
     console.log(err);
