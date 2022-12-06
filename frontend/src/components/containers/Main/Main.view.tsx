@@ -4,6 +4,7 @@ import Intro from '../Main/Intro';
 import MModal from '../../ui/MModal';
 
 import classes from './Main.module.scss';
+import CategoryFilter from '../CategoryFilter';
 
 interface IProps {
 	showModal: boolean;
@@ -23,6 +24,7 @@ interface IProps {
 	showNoti: boolean;
 	sortPlayers: any;
 	videosSorted: any;
+	handleCategoryChange: any;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -33,8 +35,17 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 					{props.isError && <span className={classes.error}>{props.isError}</span>}
 					<label htmlFor="title">Video Name:</label>
 					<input type="text" id="title" name="title" ref={props.titleRef} />
-					<label htmlFor="genre">genre:</label>
-					<input type="text" id="genre" name="genre" ref={props.genreRef} />
+
+					<label htmlFor="genre">Genre:</label>
+
+					<select name="genre" id="genre" ref={props.genreRef}>
+						<option value="All">Other</option>
+						<option value="React">React</option>
+						<option value="NodeJs">NodeJs</option>
+						<option value="CSS 3">CSS 3</option>
+						<option value="HTML 5">HTML 5</option>
+					</select>
+
 					<label htmlFor="vidurl">Video Url:</label>
 					<input type="text" id="vidurl" name="vidurl" ref={props.vidurlRef} />
 					<label htmlFor="description">Description:</label>
@@ -51,7 +62,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			</MModal>
 			<section className={classes.container}>
 				<MainNavigation />
-
+				<CategoryFilter handleCategoryChange={props.handleCategoryChange} />
 				{props.showNoti && (
 					<div className={classes.notification}>
 						<div className={classes.content}>
