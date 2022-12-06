@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, { useState, useContext, useRef, useEffect, useMemo } from 'react';
 
 import openSocket, { io } from 'socket.io-client';
 
@@ -18,9 +18,10 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const [isError, setIsError] = useState<string>('');
 	const [notificationData, setNotificationData] = useState<any>({});
 	const [showNoti, setShowNoti] = useState<boolean>(false);
-	const [videosSorted, setVideosSorted] = useState<[]>([]);
+	const [videosSorted, setVideosSorted] = useState<any>([]);
 	const [oprtionEvent, setOptionEvent] = useState<any>();
 	const [sortEvent, setSortEvent] = useState<any>();
+	const [selectedCategory, setSelectedCategory] = useState();
 
 	const titleRef = useRef<HTMLInputElement | null>(null);
 	const genreRef = useRef<HTMLInputElement | null>(null);
@@ -140,6 +141,23 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		);
 	};
 
+	const handleCategoryChange = (event: { target: { value: any } }) => {
+		setSelectedCategory(event.target.value);
+	};
+	const getFilteredList = () => {
+		if (!selectedCategory) {
+			return videosSorted;
+		}
+		return videosSorted.filter((item: any) => item.genre === selectedCategory);
+	};
+	const filteredListCategory = useMemo(getFilteredList, [selectedCategory, videosSorted]);
+
+	useEffect(() => {
+		if (selectedCategory !== 'All') {
+			setVideosSorted(filteredListCategory);
+		}
+	}, [filteredListCategory]);
+
 	return (
 		<MainView
 			titleRef={titleRef}
@@ -153,6 +171,7 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			notificaitonData={notificationData}
 			showNoti={showNoti}
 			videosSorted={videosSorted}
+			handleCategoryChange={handleCategoryChange}
 			sortPlayers={sortPlayers}
 			onCancel={closeModalHandler}
 			onClick={openModalHandler}
