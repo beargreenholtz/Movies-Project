@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../context/authContext';
 
 import IntroView from './Intro.view';
@@ -18,12 +18,14 @@ interface IProps {
 
 const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const [showVidModal, setShowVidModal] = useState<boolean>(false);
-	const [isLiked, setIsLiked] = useState<boolean>(false);
-	const [isDisabled, setDisabled] = useState<boolean>(false);
+	const [isLiked, setIsLiked] = useState<boolean | null>(null);
+	const [isLogged, setisLogged] = useState<boolean | null>(null);
+	const [isSelfPost, setIsSelfPost] = useState<boolean | null>(null);
+	const [userUsedLike, setUserUsedLike] = useState<boolean | null>(null);
+
+	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 	const auth = useContext(AuthContext);
-
-	const buttonRef = useRef(null);
-
+	const [likeCounterState, setLikeCounterState] = useState<number>(props.likeCounter);
 	const showVid = () => {
 		setShowVidModal(true);
 	};
@@ -51,28 +53,44 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	};
 
 	const onLike = async () => {
-		setDisabled(true);
-		setTimeout(async () => {
-			try {
-				await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
-			
-					if (userId) {
-						setIsLiked(true);
-					}
-					if (isLiked) {
-						setIsLiked(false);
-					}
-				});
-			} catch (err) {
-				console.log(err);
+		setIsDisabled(true);
+
+		try {
+			await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info);
+			console.log(props.userliked.includes(userId));
+
+			if (props.userliked.includes(userId) && userUsedLike) {
+				setLikeCounterState(() => likeCounterState - 1);
+				setUserUsedLike(false);
+				setIsLiked(() => false);
+			} else if (!props.userliked.includes(userId) && !userUsedLike) {
+				setLikeCounterState(() => likeCounterState + 1);
+				setUserUsedLike(true);
+				setIsLiked(() => true);
 			}
-			setDisabled(false);
-		}, 200);
+		} catch (err) {
+			console.log(err);
+			setIsLiked((prev) => prev);
+		}
+		setIsDisabled(false);
 	};
 
 	useEffect(() => {
+		console.log('work');
+		if (userId) {
+			setisLogged(true);
+		}
+		if (!userId) {
+			setisLogged(false);
+		}
+		if (props.creator === userId) {
+			setIsSelfPost(true);
+		} else {
+			setIsSelfPost(false);
+		}
 		if (props.userliked.includes(userId)) {
 			setIsLiked(true);
+			setUserUsedLike(true);
 		}
 	}, []);
 
@@ -84,11 +102,13 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			vidurl={props.vidurl}
 			creator={props.creator}
 			id={props.id}
-			likeCounter={props.likeCounter}
+			likeCounter={likeCounterState}
 			showVidModal={showVidModal}
 			userId={auth.userId}
 			isLiked={isLiked}
+			isLogged={isLogged}
 			isDisabled={isDisabled}
+			isSelfPost={isSelfPost}
 			onClick={showVid}
 			onCancel={closeVid}
 			onDelete={onDelete}

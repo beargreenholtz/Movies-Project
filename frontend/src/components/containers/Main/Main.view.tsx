@@ -21,6 +21,8 @@ interface IProps {
 	isError: string;
 	notificaitonData: any;
 	showNoti: boolean;
+	sortPlayers: any;
+	videosSorted: any;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -62,9 +64,15 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 					</div>
 				)}
 
+				<select className={classes.sortDropdown} onChange={props.sortPlayers}>
+					<option value="Default">Default</option>
+					<option value="Alphabetically">Alphabetically</option>
+					<option value="MostLiked">MostLiked</option>
+				</select>
+
 				{props.isInit && (
 					<ul>
-						{props.videos.map((video: any) => (
+						{props.videosSorted.map((video: any) => (
 							<Intro
 								key={video.id}
 								id={video.id}
