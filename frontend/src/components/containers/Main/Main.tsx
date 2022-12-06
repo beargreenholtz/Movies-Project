@@ -12,12 +12,15 @@ interface IProps {}
 
 const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const auth = useContext(AuthContext);
-	const [videos, setVideos] = useState<[]>();
+	const [videos, setVideos] = useState<any>();
 	const [isInit, setIsInit] = useState<boolean>(false);
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [isError, setIsError] = useState<string>('');
 	const [notificationData, setNotificationData] = useState<any>({});
 	const [showNoti, setShowNoti] = useState<boolean>(false);
+	const [videosSorted, setVideosSorted] = useState<[]>([]);
+	const [oprtionEvent, setOptionEvent] = useState<any>();
+	const [sortEvent, setSortEvent] = useState<any>();
 
 	const titleRef = useRef<HTMLInputElement | null>(null);
 	const genreRef = useRef<HTMLInputElement | null>(null);
@@ -45,7 +48,6 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			},
 		};
 		let video = JSON.stringify({ title, description, genre, vidurl, creator: auth.userId });
-		console.log(video);
 
 		try {
 			await axios.post(`http://localhost:5000/video/addVid`, video, customConfig);
@@ -60,21 +62,62 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		}
 	};
 
-	useEffect(() => {
+	const fetchAllVideos = () => {
 		try {
 			axios.get(`http://localhost:5000/video/fetchAllVideos`).then((res) => {
-				setVideos(res.data.video);
 				setIsInit(true);
+				setVideos(res.data.video);
+
+				if (videosSorted.length === 0) {
+					setVideosSorted(res.data.video);
+				}
+				if (videosSorted.length > 0) {
+					setVideosSorted(res.data.video);
+				}
+
+				if (oprtionEvent !== undefined) {
+					sortPlayers(sortEvent);
+				}
+
+				// if (videosSorted.length > 0) {
+				// 	if (oprtionEvent === undefined) {
+				// 		sortPlayers(sortEvent);
+				// 	}
+
+				// 	if (oprtionEvent === 'Default') {
+				// 		sortPlayers(sortEvent);
+				// 	}
+				// }
+				// if (oprtionEvent === 'Default') {
+				// 	sortPlayers(sortEvent);
+				// }
 			});
 		} catch (error) {
 			console.log(error);
 		}
+	};
+
+	useEffect(() => {
+		fetchAllVideos();
 	}, [videos]);
+
+	const sortPlayers = (selectEvent: any) => {
+		const options: any = {
+			Alphabetically: [...videos].sort((a, b) =>
+				a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+			),
+			MostLiked: [...videos].sort((a: any, b: any) => b.likeCounter - a.likeCounter),
+			Default: videos,
+		};
+		setSortEvent(selectEvent);
+		setOptionEvent(selectEvent.target.value);
+
+		setVideosSorted(options[selectEvent.target.value]);
+	};
 
 	useEffect(() => {
 		const eventListener = (data: any) => {
 			setNotificationData(data);
-
 			if (auth.userId === data.vidCreator) {
 				setShowNoti(true);
 			}
@@ -109,6 +152,8 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			isError={isError}
 			notificaitonData={notificationData}
 			showNoti={showNoti}
+			videosSorted={videosSorted}
+			sortPlayers={sortPlayers}
 			onCancel={closeModalHandler}
 			onClick={openModalHandler}
 			onSubmit={onSubmit}

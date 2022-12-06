@@ -15,10 +15,12 @@ interface IProps {
 	onClick: () => void | React.MouseEventHandler<HTMLButtonElement>;
 	onCancel: () => void;
 	onLike: any;
-	isLiked: boolean;
+	isLiked: boolean | null;
+	isLogged: boolean | null;
 	onDelete: any;
 	likeCounter: number;
 	isDisabled: boolean;
+	isSelfPost: boolean | null;
 }
 
 const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -35,14 +37,14 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 	return (
 		<li className={classes.container}>
 			<div className={classes.movieCard} id="bright">
-				{props.creator !== props.userId && (
+				{props.isLogged && !props.isSelfPost && (
 					<div className={classes.placement}>
 						<button
 							type="button"
 							className={
 								props.isLiked ? `${classes.heart}  ${classes.isActive}` : classes.heart
 							}
-							disabled={props.isDisabled ? true : false}
+							disabled={props.isDisabled}
 							onClick={props.onLike}
 						/>
 						<span className={classes.likeCounter}>{props.likeCounter}</span>

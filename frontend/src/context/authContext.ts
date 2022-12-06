@@ -12,10 +12,14 @@ export const AuthContext = createContext<{
 	logout: () => void;
 	userId: string | null;
 	token: unknown;
+	isLiked: boolean | null;
+	setLikedAuth: (_: boolean | null) => unknown;
 }>({
 	isLoggedIn: false,
 	userId: null,
 	token: null,
 	login: () => {},
 	logout: () => {},
+	isLiked: null,
+	setLikedAuth: () => {},
 });

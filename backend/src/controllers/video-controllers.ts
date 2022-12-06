@@ -251,6 +251,15 @@ const addLike: RequestHandler = async (req, res, next) => {
               }
             }
           );
+
+          const likeUserName = await User.findById(userId);
+          const likedVideoTitle = video;
+
+          io.getIO().emit('likes', {
+            likeUserName: likeUserName.name,
+            likedVideoTitle: likedVideoTitle.title,
+            vidCreator: video.creator,
+          });
         } catch (err) {
           const error = new HttpError(
             'Something went wrong, could not add like to the video.',
@@ -263,15 +272,6 @@ const addLike: RequestHandler = async (req, res, next) => {
         return next(error);
       }
     }
-
-    const likeUserName = await User.findById(userId);
-    const likedVideoTitle = video;
-
-    io.getIO().emit('likes', {
-      likeUserName: likeUserName.name,
-      likedVideoTitle: likedVideoTitle.title,
-      vidCreator: video.creator,
-    });
 
     res.status(200).json({ message: 'like added' });
   }

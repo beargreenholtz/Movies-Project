@@ -8,6 +8,7 @@ interface IProps {}
 const App: React.FC<IProps> = () => {
 	const [token, setToken] = useState<unknown>();
 	const [userId, setUserId] = useState<string | null>('');
+	const [isLiked, setIsLiked] = useState<boolean | null>(null);
 
 	const login = useCallback(
 		(uid: React.SetStateAction<string | null>, token: unknown, expirationDate?: Date) => {
@@ -35,18 +36,26 @@ const App: React.FC<IProps> = () => {
 		localStorage.removeItem('userData');
 	}, []);
 
+	const setLikedAuth = (liked: any) => {
+		setIsLiked(liked);
+	};
+
 	const contextValue: {
 		isLoggedIn: any;
 		userId: string | null;
 		token: unknown;
 		login: (_: React.SetStateAction<string | null>, token: unknown, expirationDate?: Date) => void;
 		logout: () => void;
+		isLiked: boolean | null;
+		setLikedAuth: (_: boolean | null) => void;
 	} = {
 		isLoggedIn: !!token,
 		token: token,
 		login: login,
 		logout: logout,
 		userId: userId,
+		isLiked: isLiked,
+		setLikedAuth: setLikedAuth,
 	};
 
 	return (
