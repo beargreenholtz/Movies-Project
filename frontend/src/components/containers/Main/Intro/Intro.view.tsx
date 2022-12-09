@@ -14,10 +14,10 @@ interface IProps {
 	id: string;
 	onClick: () => void | React.MouseEventHandler<HTMLButtonElement>;
 	onCancel: () => void;
-	onLike: any;
+	onLike: () => void;
 	isLiked: boolean | null;
 	isLogged: boolean | null;
-	onDelete: any;
+	onDelete: () => void;
 	likeCounter: number;
 	isDisabled: boolean;
 	isSelfPost: boolean | null;

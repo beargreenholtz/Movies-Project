@@ -19,7 +19,25 @@ body {
     direction: ltr;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-image: radial-gradient(circle farthest-corner at 10% 20%, rgba(90, 92, 106, 1) 0%, rgba(32, 45, 58, 1) 81.3%);
+
+    background: linear-gradient(-45deg, #2e2e2e, #4d4646, #363636, #635555);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    height: 100vh;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 main {
@@ -33,7 +51,7 @@ button {
     font-family: inherit;
 }
 
-#root{
+#root {
     height: 100%;
 }
 
