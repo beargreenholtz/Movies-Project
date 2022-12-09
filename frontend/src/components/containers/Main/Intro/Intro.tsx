@@ -51,23 +51,20 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const info = {
 		userId: userId,
 	};
-
 	const onLike = async () => {
 		setIsDisabled(true);
-
 		try {
-			await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info);
-			console.log(props.userliked.includes(userId));
-
-			if (props.userliked.includes(userId) && userUsedLike) {
-				setLikeCounterState(() => likeCounterState - 1);
-				setUserUsedLike(false);
-				setIsLiked(() => false);
-			} else if (!props.userliked.includes(userId) && !userUsedLike) {
-				setLikeCounterState(() => likeCounterState + 1);
-				setUserUsedLike(true);
-				setIsLiked(() => true);
-			}
+			await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
+				if (userUsedLike) {
+					setLikeCounterState(() => likeCounterState - 1);
+					setUserUsedLike(false);
+					setIsLiked(() => false);
+				} else if (!userUsedLike) {
+					setLikeCounterState(() => likeCounterState + 1);
+					setUserUsedLike(true);
+					setIsLiked(() => true);
+				}
+			});
 		} catch (err) {
 			console.log(err);
 			setIsLiked((prev) => prev);
@@ -76,23 +73,26 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	};
 
 	useEffect(() => {
-		console.log('work');
 		if (userId) {
 			setisLogged(true);
 		}
 		if (!userId) {
 			setisLogged(false);
 		}
-		if (props.creator === userId) {
-			setIsSelfPost(true);
-		} else {
-			setIsSelfPost(false);
-		}
+
 		if (props.userliked.includes(userId)) {
 			setIsLiked(true);
 			setUserUsedLike(true);
 		}
 	}, []);
+
+	useEffect(() => {
+		if (props.creator === userId) {
+			setIsSelfPost(true);
+		} else {
+			setIsSelfPost(false);
+		}
+	}, [likeCounterState]);
 
 	return (
 		<IntroView
@@ -121,3 +121,6 @@ Intro.displayName = 'Intro';
 Intro.defaultProps = {};
 
 export default React.memo(Intro);
+function forceUpdate() {
+	throw new Error('Function not implemented.');
+}

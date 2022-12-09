@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import CategoryFilterView from './CategoryFilter.view';
 
 interface IProps {
-	handleCategoryChange: any;
+	handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CategoryFilter: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

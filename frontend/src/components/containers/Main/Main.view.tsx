@@ -6,25 +6,44 @@ import MModal from '../../ui/MModal';
 import classes from './Main.module.scss';
 import CategoryFilter from '../CategoryFilter';
 
+
+interface videoArr {
+	_id: string;
+	creator: string;
+	description: string;
+	genre: string;
+	id: string;
+	likeCounter: number;
+	title: string;
+	userliked: [_: string | null];
+	vidurl: string;
+}
+
+interface notification {
+	likeUserName: string;
+	likedVideoTitle: string;
+	vidCreator: string;
+}
+
 interface IProps {
 	showModal: boolean;
+	children?: React.ReactNode;
+	titleRef: React.LegacyRef<HTMLInputElement> | null;
+	genreRef: React.LegacyRef<HTMLSelectElement> | null;
+	vidurlRef: React.LegacyRef<HTMLInputElement> | null;
+	descriptionRef: React.LegacyRef<HTMLTextAreaElement> | null;
+	videos: videoArr[];
+	isInit: boolean;
+	isError: string;
+	notificaitonData: notification | null;
+	showNoti: boolean;
+	videosSorted: videoArr[] | [];
+	onSubmit: (e: React.FormEvent) => void;
 	onClick: React.MouseEventHandler<HTMLButtonElement>;
 	onCancel: () => void;
-	children?: React.ReactNode;
-	onSubmit: (e: React.FormEvent) => void;
-	titleRef: any;
-	genreRef: any;
-	vidurlRef: any;
-	descriptionRef: any;
-	videos: any;
-	isInit: boolean;
-	onDeletePlace: any;
-	isError: string;
-	notificaitonData: any;
-	showNoti: boolean;
-	sortPlayers: any;
-	videosSorted: any;
-	handleCategoryChange: any;
+	sortPlayers: (_: React.ChangeEvent<HTMLSelectElement>) => void;
+	onDeletePlace: (_: string) => void;
+	handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -67,9 +86,9 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 					<div className={classes.notification}>
 						<div className={classes.content}>
 							<div className={classes.conttextent}>
-								{props.notificaitonData.likeUserName +
+								{props.notificaitonData?.likeUserName +
 									' Liked Your Post ' +
-									props.notificaitonData.likedVideoTitle}
+									props.notificaitonData?.likedVideoTitle}
 							</div>
 						</div>
 					</div>
@@ -83,7 +102,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 
 				{props.isInit && (
 					<ul>
-						{props.videosSorted.map((video: any) => (
+						{props.videosSorted.map((video: videoArr) => (
 							<Intro
 								key={video.id}
 								id={video.id}

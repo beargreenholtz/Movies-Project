@@ -2,14 +2,16 @@ import React from 'react';
 
 import classes from './CategoryFilter.module.scss';
 
+import genre from '../../../util/genre.svg';
+
 interface IProps {
-	handleCategoryChange: any;
+	handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CategoryFilterView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	return (
 		<div className={classes.filterContainer}>
-			<div>Filter by Category:</div>
+			<img src={genre} alt="select genre" />
 			<div>
 				<select
 					name="category-list"
