@@ -53,8 +53,22 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	};
 	const onLike = async () => {
 		setIsDisabled(true);
+		const customConfig = {
+			headers: {
+				Authorization: 'Bearer ' + auth.token,
+			},
+		};
 		try {
-			await axios.post(`http://localhost:5000/video/addLike/${props.id}`, info).then((res) => {
+			await axios({
+				method: 'POST',
+				url: `http://localhost:5000/video/addLike/${props.id}`,
+				headers: {
+					Authorization: 'Bearer ' + auth.token,
+				},
+				data: {
+					userId: userId,
+				},
+			}).then((res) => {
 				if (userUsedLike) {
 					setLikeCounterState(() => likeCounterState - 1);
 					setUserUsedLike(false);

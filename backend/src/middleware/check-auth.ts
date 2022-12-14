@@ -1,21 +1,33 @@
 import express from 'express';
-import HttpError from '../models/http-error';
 import jwt from 'jsonwebtoken';
+import { RequestHandler } from 'express';
 
-module.exports = (
-  req: express.Request | any,
-  res: express.Response,
+import HttpError from '../models/http-error';
+
+export interface IDecodedToken {
+  readonly userId: string;
+}
+
+export default (
+  req: express.Request & { userData?: { userId: string } },
+  res: express.Response | RequestHandler,
   next: express.NextFunction
 ) => {
   if (req.method === 'OPTIONS') {
     return next();
   }
+
   try {
     const token = req.headers.authorization?.split(' ')[1];
+
     if (!token) {
       throw new Error('auth fail');
     }
-    const decodedToken: any = jwt.verify(token, 'supersecret_dont_share');
+
+    const decodedToken = jwt.verify(
+      token,
+      'supersecret_dont_share'
+    ) as IDecodedToken;
     req.userData = { userId: decodedToken.userId };
     next();
   } catch (err) {
