@@ -1,11 +1,11 @@
-const express = require('express');
-const { check } = require('express-validator');
+import express from 'express';
+import { check } from 'express-validator';
 
-const usersController = require('../controllers/users-controllers');
+import { getUsers, signup, login } from '../controllers/users-controllers';
 
 const router = express.Router();
 
-router.get('/', usersController.getUsers);
+router.get('/', getUsers);
 
 router.post(
   '/signup',
@@ -16,9 +16,9 @@ router.post(
       .isEmail(),
     check('password').isLength({ min: 6 }),
   ],
-  usersController.signup
+  signup
 );
 
-router.post('/login', usersController.login);
+router.post('/login', login);
 
 export default router;

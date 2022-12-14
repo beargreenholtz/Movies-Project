@@ -1,35 +1,25 @@
-const express = require('express');
+import express from 'express';
 
-var cors = require('cors');
-
-// const { check } = require('express-validator');
-
-import checkAuth = require('../middleware/check-auth');
-
-const videoController = require('../controllers/video-controllers');
+import checkAuth from '../middleware/check-auth';
+import {
+  getAllVideos,
+  getVideoById,
+  addLike,
+  createVideo,
+  deleteVideo,
+} from '../controllers/video-controllers';
 
 const router = express.Router();
 
-router.get('/fetchAllVideos', videoController.getAllVideos);
+router.get('/fetchAllVideos', getAllVideos);
 
-router.get('/:vid', videoController.getVideoById);
-
-router.get('/user/:uid', videoController.getVideosByUserId);
-
-router.post('/addLike/:vid', videoController.addLike);
+router.get('/:vid', getVideoById);
 
 router.use(checkAuth);
+router.post('/addLike/:vid', addLike);
 
-router.post(
-  '/addVid',
-  //   [
-  //     check('title').not().isEmpty(),
-  //     check('description').isLength({ min: 5 }),
-  //     check('address').not().isEmpty(),
-  //   ],
-  videoController.createVideo
-);
+router.post('/addVid', createVideo);
 
-router.delete('/:vid', videoController.deleteVideo);
+router.delete('/:vid', deleteVideo);
 
 export default router;

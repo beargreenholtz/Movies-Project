@@ -43,8 +43,8 @@ const App: React.FC<IProps> = () => {
 	const contextValue: {
 		isLoggedIn: any;
 		userId: string | null;
-		token: unknown;
-		login: (_: React.SetStateAction<string | null>, token: unknown, expirationDate?: Date) => void;
+		token: any;
+		login: (_: React.SetStateAction<string | null>, token: any, expirationDate?: Date) => void;
 		logout: () => void;
 		isLiked: boolean | null;
 		setLikedAuth: (_: boolean | null) => void;

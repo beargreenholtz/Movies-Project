@@ -1,13 +1,10 @@
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
+import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
 import nodemailer from 'nodemailer';
-
-import jwt, { JsonWebTokenError } from 'jsonwebtoken';
-
+import jwt from 'jsonwebtoken';
 import { RequestHandler } from 'express';
 
 import HttpError from '../models/http-error';
-
 import User from '../models/user';
 
 interface IUser {
@@ -21,7 +18,7 @@ interface IUser {
   videos: string[];
 }
 
-const getUsers: RequestHandler = async (req, res, next) => {
+export const getUsers: RequestHandler = async (req, res, next) => {
   let users: IUser[];
   try {
     users = await User.find({}, '-password');
@@ -38,7 +35,7 @@ const getUsers: RequestHandler = async (req, res, next) => {
   });
 };
 
-const signup: RequestHandler = async (req, res, next) => {
+export const signup: RequestHandler = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(
@@ -132,16 +129,11 @@ const signup: RequestHandler = async (req, res, next) => {
     .json({ userId: createdUser.id, email: createdUser.email, token: token });
 };
 
-const login: RequestHandler = async (req, res, next) => {
+export const login: RequestHandler = async (req, res, next) => {
   const email = req.body['email'] as string;
   const password = req.body['password'] as string;
 
-  let existingUser: {
-    id: string;
-    password: string;
-    email: string;
-    toObject(_: { getters: boolean }): unknown;
-  };
+  let existingUser: IUser | null;
 
   try {
     existingUser = await User.findOne({ email: email });
@@ -163,7 +155,7 @@ const login: RequestHandler = async (req, res, next) => {
 
   let isValidPassword = false;
   try {
-    isValidPassword = await bcrypt.compare(password, existingUser.password);
+    isValidPassword = await bcrypt.compare(password, existingUser.password!);
   } catch (err) {
     const error = new HttpError(
       'Invalid credentials, could not log you in.',
@@ -177,7 +169,8 @@ const login: RequestHandler = async (req, res, next) => {
     return next(error);
   }
 
-  let token: unknown;
+  let token: string;
+  
   try {
     token = jwt.sign(
       { userId: existingUser.id, email: existingUser.email },
@@ -189,14 +182,9 @@ const login: RequestHandler = async (req, res, next) => {
     return next(error);
   }
 
-
   res.json({
     userId: existingUser.id,
     email: existingUser.id,
     token: token,
   });
 };
-
-exports.getUsers = getUsers;
-exports.signup = signup;
-exports.login = login;

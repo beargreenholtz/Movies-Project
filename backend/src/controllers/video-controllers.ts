@@ -1,20 +1,54 @@
-const uuid = require('uuid/v4');
-// const { validationResult } = require('express-validator');
-import { RequestHandler } from 'express';
-const mongoose = require('mongoose');
+import { Request, RequestHandler } from 'express';
+import mongoose from 'mongoose';
 import express from 'express';
-
-const io = require('../socket');
+import jwt from 'jsonwebtoken';
+import { getIO } from '../socket';
 
 import HttpError from '../models/http-error';
 import Video from '../models/video';
 import User from '../models/user';
 
 interface IVideo {
-  toObject(_: { getters: boolean }): unknown;
+  remove(arg0: { session: import('mongodb').ClientSession }): unknown;
+  toObject(arg0: { getters: boolean }): any;
+  _id: string;
+  creator: string;
+  description: string;
+  genre: string;
+  id: string;
+  likeCounter: number;
+  title: string;
+  userliked: [_: string | null];
+  vidurl: string;
 }
 
-const getVideoById: RequestHandler = async (req, res, next) => {
+interface IVideopop {
+  remove(arg0: { session: import('mongodb').ClientSession }): unknown;
+  toObject(arg0: { getters: boolean }): any;
+  _id: string;
+  description: string;
+  genre: string;
+  id: string;
+  likeCounter: number;
+  title: string;
+  userliked: [_: string | null];
+  vidurl: string;
+  creator: mongoose.Types.ObjectId | any;
+}
+
+export interface IDecodedToken {
+  readonly userId: string;
+}
+
+interface RequestWithUserData extends Request {
+  userData?:
+    | {
+        userId: string;
+      }
+    | undefined;
+}
+
+export const getVideoById: RequestHandler = async (req, res, next) => {
   const vid = req.params.vid;
 
   let video;
@@ -39,37 +73,7 @@ const getVideoById: RequestHandler = async (req, res, next) => {
   res.json({ video: video.toObject({ getters: true }) });
 };
 
-const getVideosByUserId: RequestHandler = async (req, res, next) => {
-  const userId = req.params.uid;
-
-  // let places;
-  let userWithVideos;
-  try {
-    userWithVideos = await User.findById(userId).populate('videos');
-  } catch (err) {
-    const error = new HttpError(
-      'Fetching places failed, please try again later.',
-      500
-    );
-    return next(error);
-  }
-
-  // if (!places || places.length === 0) {
-  if (!userWithVideos || userWithVideos.places.length === 0) {
-    return next(
-      new HttpError('Could not find places for the provided user id.', 404)
-    );
-  }
-
-  res.json({
-    video: userWithVideos.places.map(
-      (video: { toObject: (_: { getters: boolean }) => any }) =>
-        video.toObject({ getters: true })
-    ),
-  });
-};
-
-const getAllVideos: RequestHandler = async (req, res, next) => {
+export const getAllVideos: RequestHandler = async (req, res, next) => {
   let video: IVideo[];
   try {
     video = await Video.find({});
@@ -86,7 +90,7 @@ const getAllVideos: RequestHandler = async (req, res, next) => {
   });
 };
 
-const createVideo: RequestHandler = async (req, res, next) => {
+export const createVideo: RequestHandler = async (req, res, next) => {
   // const errors = validationResult(req);
   // if (!errors.isEmpty()) {
   //   return next(
@@ -117,16 +121,16 @@ const createVideo: RequestHandler = async (req, res, next) => {
     return next(error);
   }
 
-  // if (!user) {
-  //   const error = new HttpError('Could not find user for provided id', 404);
-  //   return next(error);
-  // }
+  if (!user) {
+    const error = new HttpError('Could not find user for provided id', 404);
+    return next(error);
+  }
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
     await createdVideo.save({ session: sess });
-    user.videos.push(createdVideo);
+    user.videos.push(createdVideo as any);
     await user.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
@@ -140,13 +144,13 @@ const createVideo: RequestHandler = async (req, res, next) => {
   res.status(201).json({ video: createdVideo });
 };
 
-const deleteVideo: RequestHandler = async (
-  req: express.Request | any,
+export const deleteVideo: RequestHandler = async (
+  req: RequestWithUserData,
   res,
   next
 ) => {
   const videoId = req.params.vid;
-  let video;
+  let video: IVideopop | null;
   try {
     video = await Video.findById(videoId).populate('creator');
   } catch (err) {
@@ -157,12 +161,12 @@ const deleteVideo: RequestHandler = async (
     return next(error);
   }
 
-  if (!video) {
+  if (!video?.creator || !video) {
     const error = new HttpError('Could not find video for this id.', 404);
     return next(error);
   }
 
-  if (video.creator.id !== req.userData.userId) {
+  if (video.creator.id !== req.userData?.userId) {
     const error = new HttpError(
       'You are not allowed to delte this place ',
       401
@@ -188,10 +192,33 @@ const deleteVideo: RequestHandler = async (
   res.status(200).json({ message: 'Deleted video.' });
 };
 
-const addLike: RequestHandler = async (req, res, next) => {
-  const userId = req.body.userId;
+export const addLike: RequestHandler = async (
+  req: RequestWithUserData,
+  res,
+  next
+) => {
   const videoId = req.params.vid;
-  let video;
+  let video: IVideo | null;
+
+  const token = req.headers.authorization?.split(' ')[1];
+
+  if (!token) {
+    throw new Error('auth fail');
+  }
+  const decodedToken = jwt.verify(
+    token,
+    'supersecret_dont_share'
+  ) as IDecodedToken;
+  req.userData = { userId: decodedToken.userId };
+
+  const userId = req.userData.userId;
+
+  if (!userId) {
+    const error = new HttpError('Missing User Id', 400);
+
+    return next(error);
+  }
+
   try {
     video = await Video.findById(videoId);
   } catch (err) {
@@ -199,30 +226,48 @@ const addLike: RequestHandler = async (req, res, next) => {
     return next(error);
   }
 
-  if (userId) {
-    if (video.userliked.includes(userId)) {
+  if (video === null) {
+    const error = new HttpError('finding video failed', 400);
+    return next(error);
+  }
+
+  if (video.userliked.includes(userId)) {
+    try {
+      await Video.findOneAndUpdate(
+        { _id: videoId },
+        { $inc: { likeCounter: -1 }, $pull: { userliked: userId } },
+        { new: true }
+      );
+    } catch (err) {
+      console.log(err);
+
+      const error = new HttpError(
+        'Something went wrong, could not add like to the video.',
+        500
+      );
+      return next(error);
+    }
+  } else {
+    if (video.creator.toString() !== userId) {
       try {
-        mongoose.set('useFindAndModify', false);
-        Video.findOneAndUpdate(
+        await Video.findOneAndUpdate(
           { _id: videoId },
-          { $inc: { likeCounter: -1 } },
-          { new: true },
-          function (err: any, response: any) {
-            // do something
-            // console.log(err + response);
-          }
+          { $inc: { likeCounter: 1 }, $push: { userliked: userId } },
+          { new: true }
         );
 
-        Video.findOneAndUpdate(
-          { _id: videoId },
-          { $pull: { userliked: userId } },
-          function (error: any, success: any) {
-            if (error) {
-            } else {
-            }
-          }
-        );
+        const likeUserName = await User.findById(userId);
+
+        if (likeUserName !== null) {
+          getIO().emit('likes', {
+            likeUserName: likeUserName.name,
+            likedVideoTitle: video.title,
+            vidCreator: video.creator,
+          });
+        }
       } catch (err) {
+        console.log(err);
+
         const error = new HttpError(
           'Something went wrong, could not add like to the video.',
           500
@@ -230,56 +275,10 @@ const addLike: RequestHandler = async (req, res, next) => {
         return next(error);
       }
     } else {
-      if ((JSON.stringify(video.creator) === `"${userId}"`) === false) {
-        try {
-          mongoose.set('useFindAndModify', false);
-          Video.findOneAndUpdate(
-            { _id: videoId },
-            { $inc: { likeCounter: 1 } },
-            { new: true },
-            function (err: any, response: any) {
-              // console.log(err + response);
-            }
-          );
-
-          Video.findOneAndUpdate(
-            { _id: videoId },
-            { $push: { userliked: userId } },
-            function (error: any, success: any) {
-              if (error) {
-              } else {
-              }
-            }
-          );
-
-          const likeUserName = await User.findById(userId);
-          const likedVideoTitle = video;
-
-          io.getIO().emit('likes', {
-            likeUserName: likeUserName.name,
-            likedVideoTitle: likedVideoTitle.title,
-            vidCreator: video.creator,
-          });
-        } catch (err) {
-          const error = new HttpError(
-            'Something went wrong, could not add like to the video.',
-            500
-          );
-          return next(error);
-        }
-      } else {
-        const error = new HttpError('You cant like two times', 400);
-        return next(error);
-      }
+      const error = new HttpError('You cant like two times', 400);
+      return next(error);
     }
-
-    res.status(200).json({ message: 'like added' });
   }
-};
 
-exports.getVideoById = getVideoById;
-exports.getVideosByUserId = getVideosByUserId;
-exports.createVideo = createVideo;
-exports.deleteVideo = deleteVideo;
-exports.getAllVideos = getAllVideos;
-exports.addLike = addLike;
+  res.status(200).json({ message: 'like added' });
+};

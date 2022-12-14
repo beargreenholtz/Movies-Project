@@ -1,15 +1,16 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import { ErrorRequestHandler } from 'express';
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 import userRouter from './routes/users-routes';
 import videoRouter from './routes/video-routes';
 import HttpError from './models/http-error';
+import { init } from './socket';
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(
   (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -27,7 +28,6 @@ app.use(
 );
 
 app.use('/login', userRouter);
-
 app.use('/video', videoRouter);
 
 app.use(
@@ -51,9 +51,9 @@ mongoose
   )
   .then(() => {
     const server = app.listen(5000);
-    var io = require('./socket').init(server);
+    const io = init(server);
 
-    io.on('connection', (socket: any) => {
+    io.on('connection', () => {
       console.log('client connected');
     });
   })
