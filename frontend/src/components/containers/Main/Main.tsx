@@ -101,19 +101,6 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				if (oprtionEvent !== undefined && sortEvent !== undefined) {
 					sortPlayers(sortEvent);
 				}
-
-				// if (selectedCategory) {
-				// 	sortPlayers(sortEvent);
-				// }
-				// if (videosSorted.length > 0) {
-				// 	if (oprtionEvent === undefined) {
-				// 		sortPlayers(sortEvent);
-				// 	}
-
-				// }
-				// if (oprtionEvent === 'Default') {
-				// 	sortPlayers(sortEvent);
-				// }
 			});
 		} catch (error) {
 			console.log(error);

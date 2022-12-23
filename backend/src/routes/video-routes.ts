@@ -2,11 +2,11 @@ import express from 'express';
 
 import checkAuth from '../middleware/check-auth';
 import {
-  getAllVideos,
-  getVideoById,
-  addLike,
-  createVideo,
-  deleteVideo,
+	getAllVideos,
+	getVideoById,
+	addLike,
+	createVideo,
+	deleteVideo,
 } from '../controllers/video-controllers';
 
 const router = express.Router();
@@ -23,3 +23,4 @@ router.post('/addVid', createVideo);
 router.delete('/:vid', deleteVideo);
 
 export default router;
+
