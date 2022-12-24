@@ -1,6 +1,5 @@
 import { Server } from 'socket.io';
 import http from 'http';
-import { setServers } from 'dns';
 
 let io: Server;
 
@@ -21,4 +20,3 @@ export const getIO = () => {
 
 	return io;
 };
-

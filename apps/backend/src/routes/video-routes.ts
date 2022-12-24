@@ -23,4 +23,3 @@ router.post('/addVid', createVideo);
 router.delete('/:vid', deleteVideo);
 
 export default router;
-

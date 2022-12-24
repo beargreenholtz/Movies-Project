@@ -1,11 +1,9 @@
 import express from 'express';
 import { ErrorRequestHandler } from 'express';
-import mongoose from 'mongoose';
 
 import userRouter from './routes/users-routes';
 import videoRouter from './routes/video-routes';
 import HttpError from './models/http-error';
-import { init } from './socket';
 
 const app = express();
 
@@ -38,18 +36,4 @@ app.use(((error, _, res, next) => {
 	res.json({ message: error.message || 'An unknown error occurred!' });
 }) as ErrorRequestHandler);
 
-mongoose
-	.connect(
-		'mongodb+srv://manu:SB98ECyaW936NtBF@cluster0.0evekc9.mongodb.net/movies?retryWrites=true&w=majority',
-	)
-	.then(() => {
-		const server = app.listen(5000);
-		const io = init(server);
-
-		io.on('connection', () => {
-			console.log('client connected');
-		});
-	})
-	.catch((err?: Error) => {
-		console.log(err);
-	});
+export default app;

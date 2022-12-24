@@ -4,11 +4,11 @@
 	"description": "Movie-Project backend files",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon app.js",
+		"start:dev": "dotenv -e ./envs/.env.development nodemon app.js",
 		"build": "tsc -p ./tsconfig.build.json",
 		"type-check": "tsc -p ./tsconfig.json",
 		"prettier": "prettier --write ./**/*.{ts,js,cjs,json,yaml}",
-		"depcheck": "depcheck --config .depcheckrc.json"
+		"depcheck": "depcheck --config ./.depcheckrc.json"
 	},
 	"author": "Bear Greenholtz",
 	"license": "UNLICENSED",
@@ -32,6 +32,7 @@
 		"@types/nodemailer": "^6.4.7",
 		"@types/socket.io": "^3.0.2",
 		"depcheck": "^1.4.3",
+		"dotenv-cli": "^6.0.0",
 		"nodemon": "^1.19.4",
 		"prettier": "^2.8.1",
 		"ts-node": "^10.9.1",
