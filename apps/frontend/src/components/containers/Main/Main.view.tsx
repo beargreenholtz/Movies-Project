@@ -6,7 +6,6 @@ import MModal from '../../ui/MModal';
 import classes from './Main.module.scss';
 import CategoryFilter from '../CategoryFilter';
 
-
 interface videoArr {
 	_id: string;
 	creator: string;
@@ -79,6 +78,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 					</button>
 				</form>
 			</MModal>
+
 			<section className={classes.container}>
 				<MainNavigation />
 				<CategoryFilter handleCategoryChange={props.handleCategoryChange} />
