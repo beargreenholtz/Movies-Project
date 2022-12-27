@@ -21,19 +21,10 @@ interface IProps {
 	likeCounter: number;
 	isDisabled: boolean;
 	isSelfPost: boolean | null;
+	youtubeId: string | null;
 }
 
 const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
-	let youtubeId;
-	var url = props.vidurl;
-	var videoid = url.match(
-		/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/,
-	);
-	if (videoid != null) {
-		youtubeId = videoid[1];
-	} else {
-	}
-
 	return (
 		<li className={classes.container}>
 			<div className={classes.movieCard} id="bright">
@@ -54,7 +45,7 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 					<div className={classes.movieHeader}>
 						<img
 							className={classes.locandina}
-							src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
+							src={`https://img.youtube.com/vi/${props.youtubeId}/maxresdefault.jpg`}
 							alt="movie"
 						/>
 						<h1>{props.title}</h1>
@@ -68,7 +59,7 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 				</div>
 				<img
 					className={`${classes.blurBack} ${classes.brightBack}`}
-					src={`https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
+					src={`https://img.youtube.com/vi/${props.youtubeId}/maxresdefault.jpg`}
 					alt="movie"
 				/>
 				<button type="button" className={classes.watchVidBtn} onClick={props.onClick}>
@@ -87,7 +78,7 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 						<iframe
 							width="560"
 							height="315"
-							src={`https://www.youtube.com/embed/${youtubeId}`}
+							src={`https://www.youtube.com/embed/${props.youtubeId}`}
 							title="YouTube video player"
 							frameBorder="0"
 							allowFullScreen

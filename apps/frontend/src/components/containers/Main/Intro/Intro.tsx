@@ -108,6 +108,17 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		}
 	}, [likeCounterState]);
 
+	let youtubeId;
+	var url = props.vidurl;
+	var videoid = url.match(
+		/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/,
+	);
+	if (videoid != null) {
+		youtubeId = videoid[1];
+	} else {
+		youtubeId = 'QooHGgsMK8k';
+	}
+
 	return (
 		<IntroView
 			title={props.title}
@@ -116,6 +127,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			vidurl={props.vidurl}
 			creator={props.creator}
 			id={props.id}
+			youtubeId={youtubeId}
 			likeCounter={likeCounterState}
 			showVidModal={showVidModal}
 			userId={auth.userId}

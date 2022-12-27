@@ -46,6 +46,7 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const genreRef = useRef<HTMLSelectElement | null>(null);
 	const vidurlRef = useRef<HTMLInputElement | null>(null);
 	const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+
 	const openModalHandler = () => {
 		setShowModal(true);
 	};

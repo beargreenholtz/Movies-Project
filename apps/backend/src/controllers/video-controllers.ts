@@ -8,7 +8,6 @@ import Video from '../models/video';
 import User from '../models/user';
 
 interface IVideo {
-	remove(arg0: { session: import('mongodb').ClientSession }): unknown;
 	toObject(arg0: { getters: boolean }): any;
 	_id: string;
 	creator: string;
@@ -22,7 +21,7 @@ interface IVideo {
 }
 
 interface IVideopop {
-	remove(arg0: { session: import('mongodb').ClientSession }): unknown;
+	remove(arg0: unknown): unknown;
 	toObject(arg0: { getters: boolean }): any;
 	_id: string;
 	description: string;
