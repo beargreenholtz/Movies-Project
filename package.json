@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"description": "Movie-Project backend files",
 	"main": "index.js",
+	"private": true,
 	"scripts": {
 		"preinstall": "npx only-allow pnpm",
 		"husky:install": "husky install",
