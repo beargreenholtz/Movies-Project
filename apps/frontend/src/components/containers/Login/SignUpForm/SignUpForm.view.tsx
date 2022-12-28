@@ -1,13 +1,15 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 
+import type { FormikValues } from 'formik';
+// eslint-disable-next-line no-duplicate-imports
+import { Formik, Form, Field } from 'formik';
 import MCard from '../../../ui/MCard';
-import { Formik, Form, Field, FormikConfig, FormikValues } from 'formik';
 import MainNavigation from '../../../layout/MainNavigation';
 
 import classes from './SignUpForm.module.scss';
 
 interface IProps {
-	onSubmit: (_: FormikValues) => void | Promise<any>;
+	onSubmit: (_: FormikValues) => void | Promise<unknown>;
 }
 
 interface MyFormValues {

@@ -1,8 +1,7 @@
 import React from 'react';
 
-import classes from './CategoryFilter.module.scss';
-
 import genre from '../../../util/genre.svg';
+import classes from './CategoryFilter.module.scss';
 
 interface IProps {
 	handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;

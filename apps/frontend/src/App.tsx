@@ -6,15 +6,16 @@ import AppView from './App.view';
 interface IProps {}
 
 const App: React.FC<IProps> = () => {
-	const [token, setToken] = useState<unknown>();
+	const [token, setToken] = useState<string | null>('');
 	const [userId, setUserId] = useState<string | null>('');
 	const [isLiked, setIsLiked] = useState<boolean | null>(null);
 
 	const login = useCallback(
-		(uid: React.SetStateAction<string | null>, token: unknown, expirationDate?: Date) => {
+		(uid: React.SetStateAction<string | null>, token: string | null, expirationDate?: Date) => {
 			setToken(token);
 			setUserId(uid);
 			const tokenExpartionDate = expirationDate || new Date(new Date().getTime() + 1000 * 60);
+
 			localStorage.setItem(
 				'userData',
 				JSON.stringify({ userId: uid, token: token, expiration: tokenExpartionDate.toISOString() }),
@@ -25,6 +26,7 @@ const App: React.FC<IProps> = () => {
 
 	useEffect(() => {
 		const storedData = JSON.parse(localStorage.getItem('userData') || '{}');
+
 		if (storedData !== '{}' && storedData.token && new Date(storedData.expiration) > new Date()) {
 			login(storedData.userId, storedData.token, new Date(storedData.expiration));
 		}
@@ -36,15 +38,15 @@ const App: React.FC<IProps> = () => {
 		localStorage.removeItem('userData');
 	}, []);
 
-	const setLikedAuth = (liked: any) => {
+	const setLikedAuth = (liked: boolean | null) => {
 		setIsLiked(liked);
 	};
 
 	const contextValue: {
-		isLoggedIn: any;
+		isLoggedIn: boolean;
 		userId: string | null;
-		token: any;
-		login: (_: React.SetStateAction<string | null>, token: any, expirationDate?: Date) => void;
+		token: string | null;
+		login: (_: React.SetStateAction<string | null>, token: string, expirationDate?: Date) => void;
 		logout: () => void;
 		isLiked: boolean | null;
 		setLikedAuth: (_: boolean | null) => void;

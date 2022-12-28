@@ -4,7 +4,7 @@ import SignUpForm from '../components/containers/Login/SignUpForm';
 
 interface IProps {}
 
-const SignUpFormPage: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
+const SignUpFormPage: React.FC<IProps> = () => {
 	return <SignUpForm />;
 };
 

@@ -4,8 +4,8 @@ import MainNavigationView from './MainNavigation.view';
 
 interface IProps {}
 
-const MainNavigation: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
-  return <MainNavigationView />;
+const MainNavigation: React.FC<IProps> = () => {
+	return <MainNavigationView />;
 };
 
 MainNavigation.displayName = 'MainNavigation';

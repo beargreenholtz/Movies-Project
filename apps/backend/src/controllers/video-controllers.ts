@@ -1,4 +1,5 @@
-import { Request, RequestHandler } from 'express';
+/* eslint-disable max-lines */
+import type { Request, RequestHandler } from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { getIO } from '../socket';
@@ -8,7 +9,7 @@ import Video from '../models/video';
 import User from '../models/user';
 
 interface IVideo {
-	toObject(arg0: { getters: boolean }): any;
+	toObject(arg0: { getters: boolean }): unknown;
 	_id: string;
 	creator: string;
 	description: string;
@@ -20,9 +21,21 @@ interface IVideo {
 	vidurl: string;
 }
 
+interface IUser {
+	save(arg0: unknown): unknown;
+	toObject(_: { getters: boolean }): unknown;
+	_id: string;
+	name: string;
+	email: string;
+	__v: unknown;
+	id?: string;
+	password?: string;
+	videos: mongoose.Types.Array<IVideopop>;
+}
+
 interface IVideopop {
 	remove(arg0: unknown): unknown;
-	toObject(arg0: { getters: boolean }): any;
+	toObject(arg0: { getters: boolean }): unknown;
 	_id: string;
 	description: string;
 	genre: string;
@@ -31,11 +44,7 @@ interface IVideopop {
 	title: string;
 	userliked: [_: string | null];
 	vidurl: string;
-	creator: mongoose.Types.ObjectId | any;
-}
-
-export interface IDecodedToken {
-	readonly userId: string;
+	creator: IUser;
 }
 
 interface RequestWithUserData extends Request {
@@ -54,15 +63,18 @@ export const getVideoById: RequestHandler = async (req, res, next) => {
 	}
 
 	let video;
+
 	try {
 		video = await Video.findById(vid);
 	} catch (err) {
 		const error = new HttpError('Something went wrong, could not find a video.', 500);
+
 		return next(error);
 	}
 
 	if (!video) {
 		const error = new HttpError('Could not find video for the provided id.', 404);
+
 		return next(error);
 	}
 
@@ -71,10 +83,12 @@ export const getVideoById: RequestHandler = async (req, res, next) => {
 
 export const getAllVideos: RequestHandler = async (_, res, next) => {
 	let video: IVideo[];
+
 	try {
 		video = await Video.find({});
 	} catch (err) {
 		const error = new HttpError('Fetching videos failed, please try again later.', 500);
+
 		return next(error);
 	}
 
@@ -84,13 +98,6 @@ export const getAllVideos: RequestHandler = async (_, res, next) => {
 };
 
 export const createVideo: RequestHandler = async (req, res, next) => {
-	// const errors = validationResult(req);
-	// if (!errors.isEmpty()) {
-	//   return next(
-	//     new HttpError('Invalid inputs passed, please check your data.', 422)
-	//   );
-	// }
-
 	const title = req.body['title'] as string;
 	const description = req.body['description'] as string;
 	const genre = req.body['genre'] as string;
@@ -107,27 +114,32 @@ export const createVideo: RequestHandler = async (req, res, next) => {
 	});
 
 	let user;
+
 	try {
 		user = await User.findById(creator);
 	} catch (err) {
 		const error = new HttpError('Creating video failed, please try again', 500);
+
 		return next(error);
 	}
 
 	if (!user) {
 		const error = new HttpError('Could not find user for provided id', 404);
+
 		return next(error);
 	}
 
 	try {
 		const sess = await mongoose.startSession();
+
 		sess.startTransaction();
 		await createdVideo.save({ session: sess });
-		user.videos.push(createdVideo as any);
+		user.videos.push(createdVideo.id);
 		await user.save({ session: sess });
 		await sess.commitTransaction();
 	} catch (err) {
 		const error = new HttpError('Creating video failed, please try again.', 500);
+
 		return next(error);
 	}
 
@@ -147,21 +159,25 @@ export const deleteVideo: RequestHandler = async (req: RequestWithUserData, res,
 		video = await Video.findById(videoId).populate('creator');
 	} catch (err) {
 		const error = new HttpError('Something went wrong, could not delete video.', 500);
+
 		return next(error);
 	}
 
 	if (!video?.creator || !video) {
 		const error = new HttpError('Could not find video for this id.', 404);
+
 		return next(error);
 	}
 
 	if (video.creator.id !== req.userData?.userId) {
 		const error = new HttpError('You are not allowed to delte this place ', 401);
+
 		return next(error);
 	}
 
 	try {
 		const sess = await mongoose.startSession();
+
 		sess.startTransaction();
 		await video.remove({ session: sess });
 		video.creator.videos.pull(video);
@@ -169,6 +185,7 @@ export const deleteVideo: RequestHandler = async (req: RequestWithUserData, res,
 		await sess.commitTransaction();
 	} catch (err) {
 		const error = new HttpError('Something went wrong, could not delete video.', 500);
+
 		return next(error);
 	}
 
@@ -189,7 +206,9 @@ export const addLike: RequestHandler = async (req: RequestWithUserData, res, nex
 	if (!token) {
 		throw new Error('auth fail');
 	}
+
 	const decodedToken = jwt.verify(token, 'supersecret_dont_share') as IDecodedToken;
+
 	req.userData = { userId: decodedToken.userId };
 
 	const userId = req.userData.userId;
@@ -204,11 +223,13 @@ export const addLike: RequestHandler = async (req: RequestWithUserData, res, nex
 		video = await Video.findById(videoId);
 	} catch (err) {
 		const error = new HttpError('finding video failed', 500);
+
 		return next(error);
 	}
 
 	if (video === null) {
 		const error = new HttpError('finding video failed', 400);
+
 		return next(error);
 	}
 
@@ -220,9 +241,8 @@ export const addLike: RequestHandler = async (req: RequestWithUserData, res, nex
 				{ new: true },
 			);
 		} catch (err) {
-			console.log(err);
-
 			const error = new HttpError('Something went wrong, could not add like to the video.', 500);
+
 			return next(error);
 		}
 	} else {
@@ -244,16 +264,20 @@ export const addLike: RequestHandler = async (req: RequestWithUserData, res, nex
 					});
 				}
 			} catch (err) {
-				console.log(err);
-
 				const error = new HttpError('Something went wrong, could not add like to the video.', 500);
+
 				return next(error);
 			}
 		} else {
 			const error = new HttpError('You cant like two times', 400);
+
 			return next(error);
 		}
 	}
 
 	res.status(200).json({ message: 'like added' });
 };
+
+export interface IDecodedToken {
+	readonly userId: string;
+}

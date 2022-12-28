@@ -6,11 +6,12 @@ import { AuthContext } from '../../../context/authContext';
 import classes from './NavLinks.module.scss';
 
 interface IProps {
-	onClick: any;
+	onClick: () => void;
 }
 
 const NavLinksView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const auth = useContext(AuthContext);
+
 	return (
 		<ul className={classes.navLinks}>
 			{!auth.isLoggedIn && (

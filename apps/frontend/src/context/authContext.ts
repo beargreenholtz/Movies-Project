@@ -1,19 +1,15 @@
+/* eslint-disable indent */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
-
-// export interface Icontext {
-// 	isLoggedIn: boolean;
-// 	login: () => void;
-// 	logout: () => void;
-// }
 
 export const AuthContext = createContext<{
 	isLoggedIn: boolean;
-	login: (_: React.SetStateAction<string | null>, __: unknown, expirationDate?: Date) => void;
-	logout: () => void;
 	userId: string | null;
-	token: unknown;
+	token: string | null;
+	login: (_: React.SetStateAction<string | null>, token: string, expirationDate?: Date) => void;
+	logout: () => void;
 	isLiked: boolean | null;
-	setLikedAuth: (_: boolean | null) => unknown;
+	setLikedAuth: (_: boolean | null) => void;
 }>({
 	isLoggedIn: false,
 	userId: null,

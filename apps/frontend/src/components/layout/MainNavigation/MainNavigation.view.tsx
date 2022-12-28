@@ -1,15 +1,15 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import Header from '../Header';
 import NavLinks from '../NavLinks';
 
 import tvSvg from '../../../util/television.svg';
 
 import classes from './MainNavigation.module.scss';
-import { NavLink } from 'react-router-dom';
 
 interface IProps {}
 
-const MainNavigationView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
+const MainNavigationView: React.FC<IProps> = () => {
 	return (
 		<Header>
 			<div className={classes.logoAndText}>

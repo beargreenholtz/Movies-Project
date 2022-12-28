@@ -1,10 +1,10 @@
 import React from 'react';
 import MainNavigation from '../../layout/MainNavigation';
-import Intro from '../Main/Intro';
 import MModal from '../../ui/MModal';
 
-import classes from './Main.module.scss';
 import CategoryFilter from '../CategoryFilter';
+import Intro from './Intro';
+import classes from './Main.module.scss';
 
 interface videoArr {
 	_id: string;

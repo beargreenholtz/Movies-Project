@@ -7,6 +7,8 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		sourceType: 'module',
 	},
-	plugins: ['react'],
-	rules: {},
+	plugins: ['node'],
+	rules: {
+		'node/no-sync': 'error',
+	},
 };

@@ -26,6 +26,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const [isDisabled, setIsDisabled] = useState<boolean>(false);
 	const auth = useContext(AuthContext);
 	const [likeCounterState, setLikeCounterState] = useState<number>(props.likeCounter);
+
 	const showVid = () => {
 		setShowVidModal(true);
 	};
@@ -48,16 +49,10 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	};
 
 	const userId = auth.userId;
-	const info = {
-		userId: userId,
-	};
+
 	const onLike = async () => {
 		setIsDisabled(true);
-		const customConfig = {
-			headers: {
-				Authorization: 'Bearer ' + auth.token,
-			},
-		};
+
 		try {
 			await axios({
 				method: 'POST',
@@ -68,7 +63,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				data: {
 					userId: userId,
 				},
-			}).then((res) => {
+			}).then(() => {
 				if (userUsedLike) {
 					setLikeCounterState(() => likeCounterState - 1);
 					setUserUsedLike(false);
@@ -80,9 +75,9 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				}
 			});
 		} catch (err) {
-			console.log(err);
 			setIsLiked((prev) => prev);
 		}
+
 		setIsDisabled(false);
 	};
 
@@ -90,6 +85,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		if (userId) {
 			setisLogged(true);
 		}
+
 		if (!userId) {
 			setisLogged(false);
 		}
@@ -109,11 +105,13 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	}, [likeCounterState]);
 
 	let youtubeId;
-	var url = props.vidurl;
-	var videoid = url.match(
+	const url = props.vidurl;
+
+	const videoid = url.match(
 		/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/,
 	);
-	if (videoid != null) {
+
+	if (videoid !== null) {
 		youtubeId = videoid[1];
 	} else {
 		youtubeId = 'QooHGgsMK8k';
@@ -147,6 +145,3 @@ Intro.displayName = 'Intro';
 Intro.defaultProps = {};
 
 export default React.memo(Intro);
-function forceUpdate() {
-	throw new Error('Function not implemented.');
-}

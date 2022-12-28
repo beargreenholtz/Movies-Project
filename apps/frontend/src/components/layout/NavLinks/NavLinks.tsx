@@ -6,13 +6,14 @@ import NavLinksView from './NavLinks.view';
 
 interface IProps {}
 
-const NavLinks: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
+const NavLinks: React.FC<IProps> = () => {
 	const auth = useContext(AuthContext);
 
 	const onClick = () => {
 		auth.logout();
 		window.location.reload();
 	};
+
 	return <NavLinksView onClick={onClick} />;
 };
 

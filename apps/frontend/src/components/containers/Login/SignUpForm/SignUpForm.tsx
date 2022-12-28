@@ -1,29 +1,25 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import axios from 'axios';
 
-import SignUpFormView from './SignUpForm.view';
-import { FormikValues } from 'formik';
+import type { FormikValues } from 'formik';
 import { AuthContext } from '../../../../context/authContext';
+import SignUpFormView from './SignUpForm.view';
 
 interface IProps {}
 
-const SignUpForm: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
+const SignUpForm: React.FC<IProps> = () => {
 	const auth = useContext(AuthContext);
 	const navigate = useNavigate();
 
 	const onSubmit = async (values: FormikValues) => {
 		try {
-			axios.post(`http://localhost:5000/login/signup`, values).then((res) => {
-				// console.log(res);
-				// console.log(res.data);
+			await axios.post('http://localhost:5000/login/signup', values).then((res) => {
 				auth.login(res.data.userId, res.data.token);
 				navigate('/');
 			});
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	};
 
 	return <SignUpFormView onSubmit={onSubmit} />;

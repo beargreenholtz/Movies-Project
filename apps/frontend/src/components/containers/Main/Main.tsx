@@ -28,7 +28,7 @@ interface notification {
 }
 const socket = io('http://localhost:5000');
 
-const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
+const Main: React.FC<IProps> = () => {
 	const auth = useContext(AuthContext);
 	const [videos, setVideos] = useState<videoArr[]>([]);
 	const [isInit, setIsInit] = useState<boolean>(false);
@@ -50,17 +50,18 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	const openModalHandler = () => {
 		setShowModal(true);
 	};
+
 	const closeModalHandler = () => {
 		setShowModal(false);
 		setIsError('');
 	};
 
 	const onSubmit = async (e: React.FormEvent) => {
-		console.log(titleRef);
 		const title = titleRef.current?.value;
 		const genre = genreRef.current?.value;
 		const vidurl = vidurlRef.current?.value;
 		const description = descriptionRef.current?.value;
+
 		e.preventDefault();
 		const customConfig = {
 			headers: {
@@ -68,10 +69,11 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				'Authorization': 'Bearer ' + auth.token,
 			},
 		};
+
 		let video = JSON.stringify({ title, description, genre, vidurl, creator: auth.userId });
 
 		try {
-			await axios.post(`http://localhost:5000/video/addVid`, video, customConfig);
+			await axios.post('http://localhost:5000/video/addVid', video, customConfig);
 			closeModalHandler();
 			video = '';
 		} catch (err) {
@@ -81,40 +83,13 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 				setIsError('Invalid Inputs');
 			}
 		}
+
 		if (selectedCategory === undefined && oprtionEvent === undefined) {
 			setReload(!reload);
 		} else {
 			window.location.reload();
 		}
 	};
-	const fetchAllVideos = () => {
-		try {
-			axios.get(`http://localhost:5000/video/fetchAllVideos`).then((res) => {
-				setIsInit(true);
-				setVideos(res.data.video);
-				if (videosSorted.length === 0) {
-					setVideosSorted(res.data.video);
-				}
-				if (videosSorted.length > 0) {
-					setVideosSorted(res.data.video);
-				}
-
-				if (oprtionEvent !== undefined && sortEvent !== undefined) {
-					sortPlayers(sortEvent);
-				}
-			});
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-	useEffect(() => {
-		if (!isInit) {
-			fetchAllVideos();
-		}
-		fetchAllVideos();
-		// setReload((prev) => prev);
-	}, [reload]);
 
 	const sortPlayers = (selectEvent: React.ChangeEvent<HTMLSelectElement>) => {
 		const options: Record<string, videoArr[]> = {
@@ -124,14 +99,45 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 			MostLiked: [...(videosSorted || [])].sort((a, b) => b.likeCounter - a.likeCounter),
 			Default: videos,
 		};
+
 		setSortEvent(selectEvent);
 		setOptionEvent(selectEvent.target.value);
 		setVideosSorted(options[selectEvent.target.value]);
 	};
 
+	const fetchAllVideos = () => {
+		try {
+			axios.get('http://localhost:5000/video/fetchAllVideos').then((res) => {
+				setIsInit(true);
+				setVideos(res.data.video);
+
+				if (videosSorted.length === 0) {
+					setVideosSorted(res.data.video);
+				}
+
+				if (videosSorted.length > 0) {
+					setVideosSorted(res.data.video);
+				}
+
+				if (oprtionEvent !== undefined && sortEvent !== undefined) {
+					sortPlayers(sortEvent);
+				}
+			});
+		} catch (error) {}
+	};
+
+	useEffect(() => {
+		if (!isInit) {
+			fetchAllVideos();
+		}
+
+		fetchAllVideos();
+	}, [reload]);
+
 	useEffect(() => {
 		const eventListener = (data: notification) => {
 			setNotificationData(data);
+
 			if (auth.userId === data.vidCreator) {
 				setShowNoti(true);
 			}
@@ -152,6 +158,7 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		setVideos((prevPlaces: videoArr[]) =>
 			prevPlaces?.filter((place: { id: string }) => place.id !== deletedPlaceId),
 		);
+
 		if (selectedCategory === undefined && oprtionEvent === undefined) {
 			setReload(!reload);
 		} else {
@@ -167,18 +174,22 @@ const Main: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		if (!selectedCategory) {
 			return videos;
 		}
+
 		return videos.filter((item: videoArr) => item.genre === selectedCategory);
 	};
+
 	const filteredListCategory = useMemo(getFilteredList, [selectedCategory, videosSorted]);
 
 	useEffect(() => {
 		if (selectedCategory !== 'All') {
 			setVideosSorted(filteredListCategory);
+
+			// eslint-disable-next-line max-lines
 			if (filteredListCategory.length === 0) {
 				setVideosSorted([...videos]);
 			}
-		} else {
 		}
+
 		if (selectedCategory === 'All') {
 			setVideosSorted([...videos]);
 		}

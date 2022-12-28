@@ -1,19 +1,16 @@
 import React from 'react';
 
+import type { FormikValues } from 'formik';
+// eslint-disable-next-line no-duplicate-imports
+import { Formik, Field, Form } from 'formik';
 import MCard from '../../../ui/MCard';
-import { Formik, Field, Form, FormikValues } from 'formik';
 import MainNavigation from '../../../layout/MainNavigation';
 
 import classes from './SignInForm.module.scss';
 
 interface IProps {
-	onSubmit: (_: FormikValues) => void | Promise<any>;
+	onSubmit: (_: FormikValues) => void | Promise<unknown>;
 	error: string;
-}
-
-interface MyFormValues {
-	name: string;
-	email: string;
 }
 
 const SignInFormView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

@@ -1,8 +1,10 @@
-import React, { MouseEventHandler, PropsWithChildren } from 'react';
+import type { MouseEventHandler } from 'react';
+// eslint-disable-next-line no-duplicate-imports
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { CSSTransition } from 'react-transition-group';
-import slideTransition from './transition/slide.module.scss';
 import MBackdrop from '../MBackdrop';
+import slideTransition from './transition/slide.module.scss';
 
 import classes from './MModal.module.scss';
 
@@ -27,6 +29,7 @@ const ModalOverlay: React.FC<IOProps> = (props: React.PropsWithChildren<IOProps>
 			<div className={`${classes.modalContent} ${props.contentClass}`}>{props.children}</div>
 		</div>
 	);
+
 	return ReactDOM.createPortal(content, modalHook);
 };
 
