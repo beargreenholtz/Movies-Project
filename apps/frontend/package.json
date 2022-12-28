@@ -61,6 +61,6 @@
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"hygen": "^6.2.11",
 		"prettier-plugin-sh": "^0.12.8",
-		"typescript-plugin-css-modules": "^3.4.0"
+		"typescript-plugin-css-modules": "^4.0.0"
 	}
 }
