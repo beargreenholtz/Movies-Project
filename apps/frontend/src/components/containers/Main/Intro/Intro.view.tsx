@@ -4,24 +4,24 @@ import MModal from '../../../ui/MModal';
 import classes from './Intro.module.scss';
 
 interface IProps {
-	title: string;
-	description: string;
-	genre: string;
-	vidurl: string;
-	creator: string;
-	userId: string | null;
-	showVidModal: boolean;
-	id: string;
-	onClick: () => void | React.MouseEventHandler<HTMLButtonElement>;
-	onCancel: () => void;
-	onLike: () => void;
-	isLiked: boolean | null;
-	isLogged: boolean | null;
-	onDelete: () => void;
-	likeCounter: number;
-	isDisabled: boolean;
-	isSelfPost: boolean | null;
-	youtubeId: string | null;
+	readonly title: string;
+	readonly description: string;
+	readonly genre: string;
+	readonly vidurl: string;
+	readonly creator: string;
+	readonly userId: string | null;
+	readonly showVidModal: boolean;
+	readonly id: string;
+	readonly onClick: () => void | React.MouseEventHandler<HTMLButtonElement>;
+	readonly onCancel: () => void;
+	readonly onLike: () => void;
+	readonly isLiked: boolean | null;
+	readonly isLogged: boolean | null;
+	readonly onDelete: () => void;
+	readonly likeCounter: number;
+	readonly isDisabled: boolean;
+	readonly isSelfPost: boolean | null;
+	readonly youtubeId: string | null;
 }
 
 const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -49,7 +49,6 @@ const IntroView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => 
 							alt="movie"
 						/>
 						<h1>{props.title}</h1>
-						<h4>Youtube Video</h4>
 						<span className={classes.minutes}>Genre:</span>
 						<p className={classes.type}>{props.genre}</p>
 					</div>

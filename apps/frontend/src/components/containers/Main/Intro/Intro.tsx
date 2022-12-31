@@ -5,15 +5,15 @@ import { AuthContext } from '../../../../context/authContext';
 import IntroView from './Intro.view';
 
 interface IProps {
-	title: string;
-	description: string;
-	genre: string;
-	vidurl: string;
-	creator: string;
-	userliked: [_: string | null];
-	likeCounter: number;
-	id: string;
-	onDelete: (_: string) => void;
+	readonly title: string;
+	readonly description: string;
+	readonly genre: string;
+	readonly vidurl: string;
+	readonly creator: string;
+	readonly userliked: [_: string | null];
+	readonly likeCounter: number;
+	readonly id: string;
+	readonly onDelete: (_: string) => void;
 }
 
 const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

@@ -14,7 +14,7 @@
 		"depcheck:all": "run-p depcheck:root depcheck:nested",
 		"prettier": "prettier --check **/*.{ts.js,cjs,json,yaml}",
 		"type-check": "tsc --project ./tsconfig.json",
-		"lint:root": "eslint -c ./.eslintrc.cjs --ignore-pattern 'apps' \"**/*.{ts,js,cjs}\" --resolve-plugins-relative-to .",
+		"lint:root": "eslint -c ./.eslintrc.cjs --ignore-pattern \"apps\" \"**/*.{ts,js,cjs}\" --resolve-plugins-relative-to .",
 		"lint:nested": "pnpm -r lint",
 		"lint:all": "run-p lint:root lint:nested"
 	},

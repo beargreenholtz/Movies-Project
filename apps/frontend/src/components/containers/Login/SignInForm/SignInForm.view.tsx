@@ -9,8 +9,8 @@ import MainNavigation from '../../../layout/MainNavigation';
 import classes from './SignInForm.module.scss';
 
 interface IProps {
-	onSubmit: (_: FormikValues) => void | Promise<unknown>;
-	error: string;
+	readonly onSubmit: (_: FormikValues) => void | Promise<unknown>;
+	readonly error: string;
 }
 
 const SignInFormView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

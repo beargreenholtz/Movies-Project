@@ -36,7 +36,6 @@
 			"@/images/*": ["src/assets/images/*"],
 			"@/data/*": ["src/data/*"]
 		},
-		"typeRoots": ["./node_modules/@types", "./@types"],
-		"plugins": [{ "name": "typescript-plugin-css-modules" }]
+		"typeRoots": ["./node_modules/@types", "./@types"]
 	}
 }

@@ -6,7 +6,7 @@ import { AuthContext } from '../../../context/authContext';
 import classes from './NavLinks.module.scss';
 
 interface IProps {
-	onClick: () => void;
+	readonly onClick: () => void;
 }
 
 const NavLinksView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

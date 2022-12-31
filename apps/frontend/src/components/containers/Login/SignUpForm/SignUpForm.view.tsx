@@ -9,7 +9,7 @@ import MainNavigation from '../../../layout/MainNavigation';
 import classes from './SignUpForm.module.scss';
 
 interface IProps {
-	onSubmit: (_: FormikValues) => void | Promise<unknown>;
+	readonly onSubmit: (_: FormikValues) => void | Promise<unknown>;
 }
 
 interface MyFormValues {

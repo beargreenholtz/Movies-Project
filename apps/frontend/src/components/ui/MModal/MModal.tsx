@@ -8,15 +8,27 @@ interface IProps {
 	show: boolean;
 	onCancel: MouseEventHandler<HTMLDivElement>;
 	footerClasss?: string;
-	footers?: string;
+	readonly footers?: string;
 	className?: string;
 	headerClass?: string;
 	contentClass?: string;
-	children?: React.ReactNode;
+	readonly children?: React.ReactNode;
 }
 
 const MModal: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
-	return <MModalView {...props}>{props.children}</MModalView>;
+	return (
+		<MModalView
+			show={props.show}
+			footerClasss={props.footerClasss}
+			footers={props.footers}
+			className={props.className}
+			headerClass={props.headerClass}
+			contentClass={props.contentClass}
+			onCancel={props.onCancel}
+		>
+			{props.children}
+		</MModalView>
+	);
 };
 
 MModal.displayName = 'MModal';

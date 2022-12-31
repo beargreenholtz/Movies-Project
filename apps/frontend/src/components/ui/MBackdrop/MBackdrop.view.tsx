@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import classes from './MBackdrop.module.scss';
 
 interface IProps {
-	onClick: React.MouseEventHandler<HTMLDivElement>;
+	readonly onClick: React.MouseEventHandler<HTMLDivElement>;
 }
 
 const MBackdropView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

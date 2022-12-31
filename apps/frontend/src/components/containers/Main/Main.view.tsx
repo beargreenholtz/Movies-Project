@@ -25,24 +25,24 @@ interface notification {
 }
 
 interface IProps {
-	showModal: boolean;
-	children?: React.ReactNode;
-	titleRef: React.LegacyRef<HTMLInputElement> | null;
-	genreRef: React.LegacyRef<HTMLSelectElement> | null;
-	vidurlRef: React.LegacyRef<HTMLInputElement> | null;
-	descriptionRef: React.LegacyRef<HTMLTextAreaElement> | null;
-	videos: videoArr[];
-	isInit: boolean;
-	isError: string;
-	notificaitonData: notification | null;
-	showNoti: boolean;
-	videosSorted: videoArr[] | [];
-	onSubmit: (e: React.FormEvent) => void;
-	onClick: React.MouseEventHandler<HTMLButtonElement>;
-	onCancel: () => void;
-	sortPlayers: (_: React.ChangeEvent<HTMLSelectElement>) => void;
-	onDeletePlace: (_: string) => void;
-	handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
+	readonly showModal: boolean;
+	readonly children?: React.ReactNode;
+	readonly titleRef: React.LegacyRef<HTMLInputElement> | null;
+	readonly genreRef: React.LegacyRef<HTMLSelectElement> | null;
+	readonly vidurlRef: React.LegacyRef<HTMLInputElement> | null;
+	readonly descriptionRef: React.LegacyRef<HTMLTextAreaElement> | null;
+	readonly videos: videoArr[];
+	readonly isInit: boolean;
+	readonly isError: string;
+	readonly notificaitonData: notification | null;
+	readonly showNoti: boolean;
+	readonly videosSorted: videoArr[] | [];
+	readonly onSubmit: (e: React.FormEvent) => void;
+	readonly onClick: React.MouseEventHandler<HTMLButtonElement>;
+	readonly onCancel: () => void;
+	readonly sortPlayers: (_: React.ChangeEvent<HTMLSelectElement>) => void;
+	readonly onDeletePlace: (_: string) => void;
+	readonly handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

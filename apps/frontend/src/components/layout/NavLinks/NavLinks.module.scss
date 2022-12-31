@@ -1,17 +1,21 @@
+@use 'sass:map';
+
+@use '@/styles/variables.scss';
+
+
 .nav {
-    border: 1px solid transparent;
-    color: white;
+    padding: map.get(variables.$sizes, spacing-m);
+    font-size: map.get(variables.$sizes, spacing-xl);
+    color: map.get(variables.$colors, primary-white);
     text-decoration: none;
-    padding: 5px;
-    font-size: 26px;
+    border: 1px solid transparent;
 
     &:hover,
     &:active,
     &.active {
+        color: map.get(variables.$colors, primary-white);
         background: #8d1616;
-        color: white;
         border-radius: 4px;
-
     }
 
 

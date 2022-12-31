@@ -1,15 +1,20 @@
+@use 'sass:map';
+
+@use '@/styles/variables.scss';
+
 .modal {
     position: fixed;
-    z-index: 10000;
-    top: 22vh;
+    /* stylelint-disable-next-line scale-unlimited/declaration-strict-value */
     top: 50%;
+    /* stylelint-disable-next-line property-disallowed-list */
     left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    z-index: 10000;
+    background: map.get(variables.$colors, primary-white);
     border-radius: 8px;
+    box-shadow: 0 2px 8px #00000042;
+    transform: translate(-50%, -50%);
 }
 
 .modalContent {
-    padding: 10px 10px;
+    padding: map.get(variables.$sizes, spacing-m);
 }

@@ -11,15 +11,15 @@ import MainView from './Main.view';
 interface IProps {}
 
 interface videoArr {
-	_id: string;
-	creator: string;
-	description: string;
-	genre: string;
-	id: string;
-	likeCounter: number;
-	title: string;
-	userliked: [_: string | null];
-	vidurl: string;
+	readonly _id: string;
+	readonly creator: string;
+	readonly description: string;
+	readonly genre: string;
+	readonly id: string;
+	readonly likeCounter: number;
+	readonly title: string;
+	readonly userliked: [_: string | null];
+	readonly vidurl: string;
 }
 interface notification {
 	likeUserName: string;

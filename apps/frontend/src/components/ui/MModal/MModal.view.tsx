@@ -41,6 +41,7 @@ interface IProps {
 	className?: string;
 	headerClass?: string;
 	contentClass?: string;
+	readonly children?: React.ReactNode;
 }
 
 const MModalView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
@@ -54,7 +55,7 @@ const MModalView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) =>
 				timeout={200}
 				classNames={slideTransition}
 			>
-				<ModalOverlay {...props} />
+				<ModalOverlay>{props.children}</ModalOverlay>
 			</CSSTransition>
 		</>
 	);

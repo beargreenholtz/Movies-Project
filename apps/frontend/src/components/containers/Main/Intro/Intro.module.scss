@@ -1,11 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800');
+@use 'sass:map';
 
+@use '@/styles/variables.scss';
+
+@import 'https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800';
 
 
 html,
 body {
-    font-family: 'Montserrat', helvetica, arial, sans-serif;
-    font-size: 14px;
+    font-family: Montserrat, helvetica, arial, sans-serif;
+    font-size: 0.9rem;
     font-weight: 400;
 }
 
@@ -16,71 +19,72 @@ body {
     display: block;
     width: 800px;
     height: 350px;
-    margin: 80px auto;
+    margin: map.get(variables.$sizes, spacing-xxl-3) auto;
     overflow: hidden;
     border-radius: 10px;
+    box-shadow: 0 0 120px -25px #00000080;
     transition: all 0.4s;
-    box-shadow: 0px 0px 120px -25px rgba(0, 0, 0, 0.5);
 
     &:hover {
-        transform: scale(1.02);
-        box-shadow: 0px 0px 80px -25px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 80px -25px #00000080;
         transition: all 0.4s;
+        transform: scale(1.02);
     }
 
     .infoSection {
         position: absolute;
+        z-index: 2;
         width: 100%;
         height: 100%;
         background-blend-mode: multiply;
-        z-index: 2;
         border-radius: 10px;
 
         .movieHeader {
             position: relative;
-            padding: 25px;
             height: 40%;
+            padding: map.get(variables.$sizes, spacing-xs);
 
             h1 {
-                color: black;
+                font-size: map.get(variables.$sizes, spacing-l);
                 font-weight: 400;
+                color: map.get(variables.$colors, primary-black);
             }
 
             h4 {
-                color: #555;
                 font-weight: 400;
+                color: map.get(variables.$colors, primary-grey);
             }
 
             .minutes {
                 display: inline-block;
-                margin-top: 15px;
-                color: #555;
-                padding: 5px;
+                padding: map.get(variables.$sizes, spacing-s);
+                margin-top: map.get(variables.$sizes, spacing-xl);
+                color: map.get(variables.$colors, primary-grey);
+                border: 1px solid #0000000d;
                 border-radius: 5px;
-                border: 1px solid rgba(0, 0, 0, 0.05);
             }
 
             .type {
                 display: inline-block;
-                color: #959595;
-                margin-left: 10px;
+                inset-block-start: 10px;
+                color: map.get(variables.$colors, primary-grey);
             }
 
             .locandina {
                 position: relative;
                 float: left;
-                margin-right: 20px;
                 height: 120px;
-                box-shadow: 0 0 20px -10px rgba(0, 0, 0, 0.5);
+                margin-inline-end: map.get(variables.$sizes, spacing-xl);
+                box-shadow: 0 0 20px -10px #00000080;
             }
         }
 
         .movieDesc {
-            padding: 25px;
             height: 50%;
+            padding: map.get(variables.$sizes, spacing-xxl);
 
             .text {
-                color: #545454;
+                color: map.get(variables.$colors, primary-grey);
             }
         }
 
@@ -90,9 +94,9 @@ body {
     .blurBack {
         position: absolute;
         top: 0;
+        inset-inline-end: 0;
         z-index: 1;
         height: 100%;
-        right: 0;
         background-size: cover;
         border-radius: 11px;
     }
@@ -117,45 +121,16 @@ body {
     }
 }
 
-@media screen and (max-width: 768px) {
-    .movieCard {
-        width: 95%;
-        margin: 70px auto;
-        min-height: 350px;
-        height: auto;
-    }
-
-    .blurBack {
-        width: 100%;
-        background-position: 50% 50% !important;
-    }
-
-    .movieHeader {
-        width: 100%;
-        margin-top: 85px;
-    }
-
-    .movieDesc {
-        width: 100%;
-    }
-
-    .infoSection {
-        background: linear-gradient(to top, #e5e6e6 50%, transparent 100%);
-        display: inline-grid;
-    }
-}
-
 .watchVidBtn {
-    position: relative;
+    position: absolute;
+    inset-block-end: 0;
     z-index: 10;
-    margin-top: 300px;
-    background-color: #720000;
-    color: #ffffff;
-    font-size: 14px;
-    border: none;
     width: 100px;
     height: 50px;
-    border-radius: 0 8px 0 0;
+    font-size: map.get(variables.$sizes, spacing-l);
+    color: map.get(variables.$colors, primary-white);
+    background-color: map.get(variables.$colors, accent-red);
+    border: none;
 }
 
 .center {
@@ -165,25 +140,25 @@ body {
 }
 
 .deleteBtn {
-    position: relative;
+    position: absolute;
     z-index: 10;
-    margin-left: 300px;
-
-    background-color: #720000;
-    color: #ffffff;
-    font-size: 14px;
-    border: none;
     width: 100px;
     height: 50px;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    font-size: map.get(variables.$sizes, spacing-l);
+    color: map.get(variables.$colors, primary-white);
+    background-color: map.get(variables.$colors, accent-red);
+    border: none;
 }
 
 
 .heart {
     width: 100px;
     height: 100px;
+    cursor: pointer;
     background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
     background-position: 0 0;
-    cursor: pointer;
     transition: background-position 1s steps(28);
     transition-duration: 0s;
 }
@@ -191,40 +166,39 @@ body {
 
 .placement {
     position: absolute;
+    inset-inline-end: 0;
+    z-index: 10;
     display: flex;
     flex-direction: column;
     align-items: center;
-    right: 0;
-    z-index: 10;
 }
 
 .isActive {
-    transition-duration: 1s;
     background-position: -2800px 0;
+    transition-duration: 1s;
 }
 
 
 
 .likeCounter {
-    --borderWidth: 3px;
-    background: white;
     position: relative;
-    border-radius: var(--borderWidth);
+    padding: map.get(variables.$sizes, spacing-m);
     font-weight: 700;
-    padding: 5px;
+    background: map.get(variables.$colors, primary-white);
+    border-radius: map.get(variables.$sizes, spacing-s);
 
-    &:after {
-        content: '';
+    &::after {
         position: absolute;
-        top: calc(-1 * var(--borderWidth));
-        left: calc(-1 * var(--borderWidth));
-        height: calc(100% + var(--borderWidth) * 2);
-        width: calc(100% + var(--borderWidth) * 2);
-        background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
-        border-radius: calc(2 * var(--borderWidth));
+        top: calc(-1 * map.get(variables.$sizes, spacing-s));
+        inset-inline-end: calc(-1 * map.get(variables.$sizes, spacing-s));
         z-index: -1;
-        animation: animatedgradient 3s ease alternate infinite;
+        width: calc(100% + map.get(variables.$sizes, spacing-s) * 2);
+        height: calc(100% + map.get(variables.$sizes, spacing-s) * 2);
+        content: '';
+        background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
         background-size: 300% 300%;
+        border-radius: calc(2 * map.get(variables.$sizes, spacing-s));
+        animation: animatedgradient 3s ease alternate infinite;
     }
 
 

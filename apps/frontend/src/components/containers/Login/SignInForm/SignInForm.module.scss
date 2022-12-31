@@ -1,6 +1,10 @@
+@use 'sass:map';
+
+@use '@/styles/variables.scss';
+
 .signInText {
     position: absolute;
-    font-size: 30px;
+    font-size: map.get(variables.$sizes, spacing-xl);
 }
 
 .signInCard {
@@ -9,7 +13,6 @@
     justify-content: center;
     width: 500px;
     height: 500px;
-    align-items: center;
 
 }
 
@@ -17,42 +20,31 @@
     display: flex;
     flex-direction: column;
     width: 400px;
-    margin: 20px;
 
     & input {
-        width: 100%;
-        padding: 16px;
-        background-color: #f7eded;
-        border: none;
-        margin-bottom: 16px;
-        font-size: 14px;
-        border: 2px solid #a0aec0;
         box-sizing: border-box;
+        width: 100%;
+        padding: map.get(variables.$sizes, spacing-l);
+        margin-bottom: map.get(variables.$sizes, spacing-l);
+        font-size: map.get(variables.$sizes, spacing-l);
+        color: map.get(variables.$colors, primary-black);
+        background-color: map.get(variables.$colors, primary-white);
+        border: 2px solid #a0aec0;
     }
 
-    & textarea {
-        width: 100%;
-        padding: 16px;
-        background-color: #f7eded;
-        border: none;
-        margin-bottom: 16px;
-        font-size: 14px;
-        border: 2px solid #a0aec0;
-        box-sizing: border-box;
-        height: 150px;
-    }
 
     & button {
-        background-color: #720000;
-        color: #ffffff;
-        font-size: 14px;
-        border: none;
-        padding: 16px;
         width: 100%;
+        padding: map.get(variables.$sizes, spacing-l);
+        font-size: map.get(variables.$sizes, spacing-l);
+        color: map.get(variables.$colors, primary-white);
+        background-color: map.get(variables.$colors, accent-red);
+        border: none;
     }
 
     & label {
-        font-size: 15px;
+        font-size: map.get(variables.$sizes, spacing-l);
+
     }
 
 
@@ -60,19 +52,15 @@
 
 .container {
     display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
     margin: auto;
+    white-space: pre-line;
 }
 
 .inputError {
-    color: #720000;
-    font-size: 20px;
-}
+    font-size: map.get(variables.$sizes, spacing-xl);
+    color: map.get(variables.$colors, accent-red);
 
-
-.container {
-    display: flex;
-    height: 100%;
-    white-space: pre-line;
-    justify-content: center;
-    align-items: center;
 }

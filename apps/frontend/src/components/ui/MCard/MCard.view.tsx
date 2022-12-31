@@ -3,8 +3,8 @@ import React from 'react';
 import classes from './MCard.module.scss';
 
 interface IProps {
-	className?: string;
-	children: React.ReactNode;
+	readonly className?: string;
+	readonly children: React.ReactNode;
 }
 
 const MCardView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {

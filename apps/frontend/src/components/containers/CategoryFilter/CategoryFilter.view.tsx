@@ -1,10 +1,11 @@
 import React from 'react';
 
 import genre from '../../../util/genre.svg';
+
 import classes from './CategoryFilter.module.scss';
 
 interface IProps {
-	handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
+	readonly handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const CategoryFilterView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
