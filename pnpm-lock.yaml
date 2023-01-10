@@ -135,7 +135,7 @@ importers:
       stylelint-config-standard-scss: 6.1.0
       stylelint-declaration-strict-value: 1.9.1
       typescript: ^4.9.4
-      vite: 4.0.3
+      vite: 4.0.4
       vite-plugin-eslint: 1.8.1
     dependencies:
       '@types/react': 18.0.26
@@ -152,7 +152,7 @@ importers:
       '@types/react-transition-group': 4.4.5
       '@typescript-eslint/eslint-plugin': 5.48.0_ms6clkwmnrnf7qx5hae2o4lcfe
       '@typescript-eslint/parser': 5.48.0_lzzuuodtsqwxnvqeq4g4likcqa
-      '@vitejs/plugin-react': 3.0.0_vite@4.0.3
+      '@vitejs/plugin-react': 3.0.0_vite@4.0.4
       eslint: 8.30.0
       eslint-config-prettier: 8.5.0_eslint@8.30.0
       eslint-plugin-deprecation: 1.3.3_lzzuuodtsqwxnvqeq4g4likcqa
@@ -169,8 +169,8 @@ importers:
       stylelint-config-standard-scss: 6.1.0_stylelint@14.16.1
       stylelint-declaration-strict-value: 1.9.1_stylelint@14.16.1
       typescript: 4.9.4
-      vite: 4.0.3_sass@1.57.1
-      vite-plugin-eslint: 1.8.1_eslint@8.30.0+vite@4.0.3
+      vite: 4.0.4_sass@1.57.1
+      vite-plugin-eslint: 1.8.1_eslint@8.30.0+vite@4.0.4
 
 packages:
 
@@ -2098,7 +2098,7 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: true
 
-  /@vitejs/plugin-react/3.0.0_vite@4.0.3:
+  /@vitejs/plugin-react/3.0.0_vite@4.0.4:
     resolution: {integrity: sha512-1mvyPc0xYW5G8CHQvJIJXLoMjl5Ct3q2g5Y2s6Ccfgwm45y48LBvsla7az+GkkAtYikWQ4Lxqcsq5RHLcZgtNQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -2109,7 +2109,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.19.6_@babel+core@7.20.7
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 4.0.3_sass@1.57.1
+      vite: 4.0.4_sass@1.57.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -8261,7 +8261,7 @@ packages:
     resolution: {integrity: sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==}
     engines: {node: '>= 0.8'}
 
-  /vite-plugin-eslint/1.8.1_eslint@8.30.0+vite@4.0.3:
+  /vite-plugin-eslint/1.8.1_eslint@8.30.0+vite@4.0.4:
     resolution: {integrity: sha512-PqdMf3Y2fLO9FsNPmMX+//2BF5SF8nEWspZdgl4kSt7UvHDRHVVfHvxsD7ULYzZrJDGRxR81Nq7TOFgwMnUang==}
     peerDependencies:
       eslint: '>=7'
@@ -8271,11 +8271,11 @@ packages:
       '@types/eslint': 8.4.10
       eslint: 8.30.0
       rollup: 2.79.1
-      vite: 4.0.3_sass@1.57.1
+      vite: 4.0.4_sass@1.57.1
     dev: true
 
-  /vite/4.0.3_sass@1.57.1:
-    resolution: {integrity: sha512-HvuNv1RdE7deIfQb8mPk51UKjqptO/4RXZ5yXSAvurd5xOckwS/gg8h9Tky3uSbnjYTgUm0hVCet1cyhKd73ZA==}
+  /vite/4.0.4_sass@1.57.1:
+    resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
