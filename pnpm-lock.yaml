@@ -18,7 +18,7 @@ importers:
       husky: 8.0.3
       lint-staged: 13.1.4
       npm-run-all: 4.1.5
-      prettier: 2.8.4
+      prettier: 2.8.8
       typescript: 4.9.5
     devDependencies:
       '@commitlint/cli': 17.4.4
@@ -35,7 +35,7 @@ importers:
       husky: 8.0.3
       lint-staged: 13.1.4
       npm-run-all: 4.1.5
-      prettier: 2.8.4
+      prettier: 2.8.8
       typescript: 4.9.5
 
   apps/backend:
@@ -4719,7 +4719,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -6997,8 +6997,8 @@ packages:
     hasBin: true
     dev: true
 
-  /prettier/2.8.4:
-    resolution: {integrity: sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==}
+  /prettier/2.8.8:
+    resolution: {integrity: sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==}
     engines: {node: '>=10.13.0'}
     hasBin: true
     dev: true
