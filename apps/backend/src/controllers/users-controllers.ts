@@ -7,16 +7,7 @@ import type { RequestHandler } from 'express';
 import HttpError from '../models/http-error';
 import User from '../models/user';
 
-interface IUser {
-	toObject(_: { getters: boolean }): unknown;
-	_id: string;
-	name: string;
-	email: string;
-	__v: unknown;
-	id?: string;
-	password?: string;
-	videos: string[];
-}
+import type { IUser } from '../interfaces/user';
 
 export const getUsers: RequestHandler = async (_, res, next) => {
 	let users: IUser[];

@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 
 import HttpError from '../models/http-error';
 
+import type { IDecodedToken } from '../interfaces/token';
+
 const checkAuth = (
 	req: express.Request & { userData?: { userId: string } },
 	_: express.Response | express.RequestHandler,
@@ -29,9 +31,5 @@ const checkAuth = (
 		return next(error);
 	}
 };
-
-export interface IDecodedToken {
-	readonly userId: string;
-}
 
 export default checkAuth;

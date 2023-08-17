@@ -1,4 +1,6 @@
-import React, { useState, useContext, useRef, useEffect, useMemo } from 'react';
+// eslint-disable-next-line max-lines
+
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 
 import { io } from 'socket.io-client';
 
@@ -30,10 +32,11 @@ const socket = io('http://localhost:5000');
 
 const Main: React.FC<IProps> = () => {
 	const auth = useContext(AuthContext);
-	const [videos, setVideos] = useState<videoArr[]>([]);
-	const [isInit, setIsInit] = useState<boolean>(false);
+
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [isError, setIsError] = useState<string>('');
+	const [videos, setVideos] = useState<videoArr[]>([]);
+	const [isInit, setIsInit] = useState<boolean>(false);
 	const [notificationData, setNotificationData] = useState<notification | null>(null);
 	const [showNoti, setShowNoti] = useState<boolean>(false);
 	const [videosSorted, setVideosSorted] = useState<videoArr[]>([]);
@@ -42,11 +45,6 @@ const Main: React.FC<IProps> = () => {
 	const [selectedCategory, setSelectedCategory] = useState<string | undefined>();
 	const [reload, setReload] = useState<boolean>(false);
 
-	const titleRef = useRef<HTMLInputElement | null>(null);
-	const genreRef = useRef<HTMLSelectElement | null>(null);
-	const vidurlRef = useRef<HTMLInputElement | null>(null);
-	const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
-
 	const openModalHandler = () => {
 		setShowModal(true);
 	};
@@ -54,41 +52,6 @@ const Main: React.FC<IProps> = () => {
 	const closeModalHandler = () => {
 		setShowModal(false);
 		setIsError('');
-	};
-
-	const onSubmit = async (e: React.FormEvent) => {
-		const title = titleRef.current?.value;
-		const genre = genreRef.current?.value;
-		const vidurl = vidurlRef.current?.value;
-		const description = descriptionRef.current?.value;
-
-		e.preventDefault();
-		const customConfig = {
-			headers: {
-				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + auth.token,
-			},
-		};
-
-		let video = JSON.stringify({ title, description, genre, vidurl, creator: auth.userId });
-
-		try {
-			await axios.post('http://localhost:5000/video/addVid', video, customConfig);
-			closeModalHandler();
-			video = '';
-		} catch (err) {
-			if (!auth.token) {
-				setIsError('Login to create a video');
-			} else {
-				setIsError('Invalid Inputs');
-			}
-		}
-
-		if (selectedCategory === undefined && oprtionEvent === undefined) {
-			setReload(!reload);
-		} else {
-			window.location.reload();
-		}
 	};
 
 	const sortPlayers = (selectEvent: React.ChangeEvent<HTMLSelectElement>) => {
@@ -184,7 +147,6 @@ const Main: React.FC<IProps> = () => {
 		if (selectedCategory !== 'All') {
 			setVideosSorted(filteredListCategory);
 
-			// eslint-disable-next-line max-lines
 			if (filteredListCategory.length === 0) {
 				setVideosSorted([...videos]);
 			}
@@ -197,23 +159,20 @@ const Main: React.FC<IProps> = () => {
 
 	return (
 		<MainView
-			titleRef={titleRef}
-			genreRef={genreRef}
-			vidurlRef={vidurlRef}
-			descriptionRef={descriptionRef}
-			showModal={showModal}
 			videos={videos}
 			isInit={isInit}
-			isError={isError}
 			notificaitonData={notificationData}
 			showNoti={showNoti}
 			videosSorted={videosSorted}
+			isError={isError}
+			showModal={showModal}
+			setIsError={setIsError}
 			handleCategoryChange={handleCategoryChange}
 			sortPlayers={sortPlayers}
-			onCancel={closeModalHandler}
-			onClick={openModalHandler}
-			onSubmit={onSubmit}
+			openModalHandler={openModalHandler}
 			onDeletePlace={placeDeletedHandler}
+			onClick={openModalHandler}
+			onCancel={closeModalHandler}
 		/>
 	);
 };

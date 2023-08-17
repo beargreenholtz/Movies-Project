@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import type { Request, RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { getIO } from '../socket';
@@ -8,52 +8,11 @@ import HttpError from '../models/http-error';
 import Video from '../models/video';
 import User from '../models/user';
 
-interface IVideo {
-	toObject(arg0: { getters: boolean }): unknown;
-	_id: string;
-	creator: string;
-	description: string;
-	genre: string;
-	id: string;
-	likeCounter: number;
-	title: string;
-	userliked: [_: string | null];
-	vidurl: string;
-}
+import type { IVideo, IVideopop } from '../interfaces/video';
 
-interface IUser {
-	save(arg0: unknown): unknown;
-	toObject(_: { getters: boolean }): unknown;
-	_id: string;
-	name: string;
-	email: string;
-	__v: unknown;
-	id?: string;
-	password?: string;
-	videos: mongoose.Types.Array<IVideopop>;
-}
+import type { IDecodedToken } from '../interfaces/token';
 
-interface IVideopop {
-	remove(arg0: unknown): unknown;
-	toObject(arg0: { getters: boolean }): unknown;
-	_id: string;
-	description: string;
-	genre: string;
-	id: string;
-	likeCounter: number;
-	title: string;
-	userliked: [_: string | null];
-	vidurl: string;
-	creator: IUser;
-}
-
-interface RequestWithUserData extends Request {
-	userData?:
-		| {
-				userId: string;
-		  }
-		| undefined;
-}
+import type { RequestWithUserData } from '../interfaces/user';
 
 export const getVideoById: RequestHandler = async (req, res, next) => {
 	const vid = req.params['vid'];
@@ -277,7 +236,3 @@ export const addLike: RequestHandler = async (req: RequestWithUserData, res, nex
 
 	res.status(200).json({ message: 'like added' });
 };
-
-export interface IDecodedToken {
-	readonly userId: string;
-}

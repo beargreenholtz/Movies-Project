@@ -7,7 +7,8 @@ let io: Server;
 export const init = (httpServer: http.Server) => {
 	io = new Server(httpServer, {
 		cors: {
-			origin: 'http://localhost:3000',
+			origin: 'http://localhost:4200',
+			methods: ['GET', 'POST'],
 		},
 	});
 

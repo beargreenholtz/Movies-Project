@@ -1,0 +1,48 @@
+@use 'sass:map';
+
+@use '@/styles/variables.scss';
+
+.videoForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+
+	& input {
+		box-sizing: border-box;
+		width: 500px;
+		padding: map.get(variables.$sizes, spacing-l);
+		margin-bottom: map.get(variables.$sizes, spacing-l);
+		font-size: 1.4rem;
+		color: map.get(variables.$colors, primary-black);
+		background-color: map.get(variables.$colors, primary-white);
+		border: 2px solid #a0aec0;
+	}
+
+	& textarea {
+		box-sizing: border-box;
+		width: 500px;
+		height: 150px;
+		padding: map.get(variables.$sizes, spacing-l);
+		font-size: map.get(variables.$sizes, spacing-l);
+		resize: none;
+		background-color: map.get(variables.$colors, primary-white);
+		border: 2px solid #a0aec0;
+	}
+
+	& .addMovieBtn {
+		width: 50%;
+		padding: map.get(variables.$sizes, spacing-l);
+		margin-top: map.get(variables.$sizes, spacing-xl);
+		font-size: 1.4rem;
+		color: map.get(variables.$colors, primary-white);
+		background-color: map.get(variables.$colors, accent-red);
+		border: none;
+	}
+
+	& label {
+		font-size: 1.5rem;
+	}
+
+
+}

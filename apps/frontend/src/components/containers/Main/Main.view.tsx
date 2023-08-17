@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { type Dispatch, type SetStateAction } from 'react';
+
 import MainNavigation from '../../layout/MainNavigation';
 import MModal from '../../ui/MModal';
 
 import CategoryFilter from '../CategoryFilter';
 import Intro from './Intro';
 import classes from './Main.module.scss';
+import Form from './Form';
 
 interface videoArr {
 	_id: string;
@@ -25,60 +27,33 @@ interface notification {
 }
 
 interface IProps {
-	readonly showModal: boolean;
 	readonly children?: React.ReactNode;
-	readonly titleRef: React.LegacyRef<HTMLInputElement> | null;
-	readonly genreRef: React.LegacyRef<HTMLSelectElement> | null;
-	readonly vidurlRef: React.LegacyRef<HTMLInputElement> | null;
-	readonly descriptionRef: React.LegacyRef<HTMLTextAreaElement> | null;
 	readonly videos: videoArr[];
 	readonly isInit: boolean;
 	readonly isError: string;
 	readonly notificaitonData: notification | null;
 	readonly showNoti: boolean;
 	readonly videosSorted: videoArr[] | [];
-	readonly onSubmit: (e: React.FormEvent) => void;
+	readonly showModal: boolean;
+	readonly setIsError: Dispatch<SetStateAction<string>>;
 	readonly onClick: React.MouseEventHandler<HTMLButtonElement>;
-	readonly onCancel: () => void;
 	readonly sortPlayers: (_: React.ChangeEvent<HTMLSelectElement>) => void;
 	readonly onDeletePlace: (_: string) => void;
 	readonly handleCategoryChange: (_: React.ChangeEvent<HTMLSelectElement>) => void;
+	readonly openModalHandler: () => void;
+	readonly onCancel: () => void;
 }
 
 const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	return (
 		<>
 			<MModal show={props.showModal} onCancel={props.onCancel}>
-				<form className={classes.videoForm} onSubmit={props.onSubmit}>
-					{props.isError && <span className={classes.error}>{props.isError}</span>}
-					<label htmlFor="title">Video Name:</label>
-					<input type="text" id="title" name="title" ref={props.titleRef} />
-
-					<label htmlFor="genre">Genre:</label>
-
-					<select name="genre" id="genre" ref={props.genreRef}>
-						<option value="All">Other</option>
-						<option value="React">React</option>
-						<option value="NodeJs">NodeJs</option>
-						<option value="CSS 3">CSS 3</option>
-						<option value="HTML 5">HTML 5</option>
-					</select>
-
-					<label htmlFor="vidurl">Video Url:</label>
-					<input type="text" id="vidurl" name="vidurl" ref={props.vidurlRef} />
-					<label htmlFor="description">Description:</label>
-					<textarea
-						id="description"
-						name="description"
-						className={classes.description}
-						ref={props.descriptionRef}
-					/>
-					<button type="submit" className={classes.addMovieBtn}>
-						Add Video
-					</button>
-				</form>
+				<Form
+					closeModalHandler={props.onCancel}
+					setIsError={props.setIsError}
+					isError={props.isError}
+				/>
 			</MModal>
-
 			<section className={classes.container}>
 				<MainNavigation />
 				<CategoryFilter handleCategoryChange={props.handleCategoryChange} />
@@ -119,7 +94,7 @@ const MainView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 					</ul>
 				)}
 
-				<button className={classes.addMovieBtn} type="button" onClick={props.onClick}>
+				<button className={classes.addMovieBtn} type="button" onClick={props.openModalHandler}>
 					Add Movie
 				</button>
 			</section>
