@@ -1,6 +1,7 @@
 import express from 'express';
 
 import checkAuth from '../middleware/check-auth';
+
 import {
 	getAllVideos,
 	getVideoById,
@@ -16,6 +17,7 @@ router.get('/fetchAllVideos', getAllVideos);
 router.get('/:vid', getVideoById);
 
 router.use(checkAuth);
+
 router.post('/addLike/:vid', addLike);
 
 router.post('/addVid', createVideo);

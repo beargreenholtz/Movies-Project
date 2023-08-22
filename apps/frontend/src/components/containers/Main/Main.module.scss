@@ -4,201 +4,73 @@
 
 
 .container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding-top: map.get(variables.$sizes, spacing-xxl-5);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	padding-top: map.get(variables.$sizes, spacing-xxl-5);
 
 
-    & .addMovieBtn {
-        position: fixed;
-        inset-inline-end: 30px;
-        inset-block-end: 30px;
-        width: 100px;
-        height: 50px;
-        font-size: 1.4rem;
-        color: map.get(variables.$colors, primary-white);
-        background-color: map.get(variables.$colors, accent-red);
-        border: none;
-        border-radius: 8px;
-    }
+	& .addMovieBtn {
+		position: fixed;
+		inset-inline-end: 30px;
+		inset-block-end: 30px;
+		width: 100px;
+		height: 50px;
+		font-size: 1.4rem;
+		color: map.get(variables.$colors, primary-white);
+		background-color: map.get(variables.$colors, accent-red);
+		border: none;
+		border-radius: 8px;
+	}
 
-    & ul {
-        list-style-type: none;
-    }
-}
-
-
-.videoForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-
-    & input {
-        box-sizing: border-box;
-        width: 500px;
-        padding: map.get(variables.$sizes, spacing-l);
-        margin-bottom: map.get(variables.$sizes, spacing-l);
-        font-size: 1.4rem;
-        color: map.get(variables.$colors, primary-black);
-        background-color: map.get(variables.$colors, primary-white);
-        border: 2px solid #a0aec0;
-    }
-
-    & textarea {
-        box-sizing: border-box;
-        width: 500px;
-        height: 150px;
-        padding: map.get(variables.$sizes, spacing-l);
-        font-size: map.get(variables.$sizes, spacing-l);
-        resize: none;
-        background-color: map.get(variables.$colors, primary-white);
-        border: 2px solid #a0aec0;
-    }
-
-    & .addMovieBtn {
-        width: 50%;
-        padding: map.get(variables.$sizes, spacing-l);
-        margin-top: map.get(variables.$sizes, spacing-xl);
-        font-size: 1.4rem;
-        color: map.get(variables.$colors, primary-white);
-        background-color: map.get(variables.$colors, accent-red);
-        border: none;
-    }
-
-    & label {
-        font-size: 1.5rem;
-    }
-
-
+	& ul {
+		list-style-type: none;
+	}
 }
 
 .creator {
-    display: hidden;
+	display: hidden;
 }
 
 
 
 .fetchButton {
-    position: fixed;
-    inset-inline-end: 150px;
-    inset-block-end: 30px;
-    width: 100px;
-    height: 50px;
-    font-size: 1.4rem;
-    color: map.get(variables.$colors, primary-white);
-    background-color: map.get(variables.$colors, accent-red);
-    border: none;
+	position: fixed;
+	inset-inline-end: 150px;
+	inset-block-end: 30px;
+	width: 100px;
+	height: 50px;
+	font-size: 1.4rem;
+	color: map.get(variables.$colors, primary-white);
+	background-color: map.get(variables.$colors, accent-red);
+	border: none;
 }
 
 .error {
-    padding: map.get(variables.$sizes, spacing-l) map.get(variables.$sizes, spacing-m) map.get(variables.$sizes, spacing-l) map.get(variables.$sizes, spacing-xxl-3);
-    margin: map.get(variables.$sizes, spacing-l) 0;
-    color: map.get(variables.$colors, error-red);
-    background-color: map.get(variables.$colors, primary-grey);
-    background-image: url('https://i.imgur.com/GnyDvKN.png');
-    background-repeat: no-repeat;
-    background-position: 10px center;
-    border: 1px solid;
+	padding: map.get(variables.$sizes, spacing-l) map.get(variables.$sizes, spacing-m) map.get(variables.$sizes, spacing-l) map.get(variables.$sizes, spacing-xxl-3);
+	margin: map.get(variables.$sizes, spacing-l) 0;
+	color: map.get(variables.$colors, error-red);
+	background-color: map.get(variables.$colors, primary-grey);
+	background-image: url('https://i.imgur.com/GnyDvKN.png');
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	border: 1px solid;
 }
 
 
 .fixed {
-    position: fixed;
-    z-index: 100000;
-    align-items: center;
-    font-size: 120rem;
+	position: fixed;
+	z-index: 100000;
+	align-items: center;
+	font-size: 120rem;
 }
-
-
-
-
-.notification {
-    position: fixed;
-    bottom: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20%;
-    height: 8%;
-    color: map.get(variables.$colors, primary-grey);
-    background-image: radial-gradient(circle farthest-corner at 10% 20%, #934343 0%, #6f1b1b 90%);
-    box-shadow: 0 1px 1px #00000014, 0 2px 2px #0000001f, 0 4px 4px #00000029, 0 8px 8px #0033;
-    transform-origin: left;
-    animation: notify 3s ease-in-out;
-}
-
-@keyframes notify {
-    0% {
-        transform: scaleX(0);
-    }
-
-    10% {
-        transform: scaleX(1);
-    }
-
-    13% {
-        transform: scale(1.1);
-    }
-
-    16% {
-        transform: scale(1);
-    }
-
-    55% {
-        border-radius: 0%;
-        transform: scaleX(1);
-    }
-
-    65% {
-        border-radius: 50%;
-        transform: scaleX(0.25);
-    }
-
-    95% {
-        border-radius: 50%;
-        transform: scaleX(0.25);
-    }
-
-    100% {
-        transform: scaleX(0);
-    }
-}
-
-@keyframes notify {
-    0% {
-        transform: scaleX(0);
-    }
-
-    10% {
-        transform: scaleX(1);
-    }
-
-    13% {
-        transform: scale(1.1);
-    }
-
-    16% {
-        transform: scale(1);
-    }
-
-    55% {
-        border-radius: 0%;
-        transform: scaleX(1);
-    }
-
-
-}
-
 
 .sortDropdown {
-    flex-direction: row;
-    justify-content: center;
-    padding: map.get(variables.$sizes, spacing-m);
+	flex-direction: row;
+	justify-content: center;
+	padding: map.get(variables.$sizes, spacing-m);
 
 }

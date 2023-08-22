@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 
 import HttpError from '../models/http-error';
 
+import type { IDecodedToken } from '../interfaces/token';
+
 const checkAuth = (
 	req: express.Request & { userData?: { userId: string } },
 	_: express.Response | express.RequestHandler,
@@ -22,6 +24,7 @@ const checkAuth = (
 		const decodedToken = jwt.verify(token, 'supersecret_dont_share') as IDecodedToken;
 
 		req.userData = { userId: decodedToken.userId };
+
 		next();
 	} catch (err) {
 		const error = new HttpError('auth failed', 401);
@@ -29,9 +32,5 @@ const checkAuth = (
 		return next(error);
 	}
 };
-
-export interface IDecodedToken {
-	readonly userId: string;
-}
 
 export default checkAuth;

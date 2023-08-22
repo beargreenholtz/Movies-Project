@@ -54,26 +54,19 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 		setIsDisabled(true);
 
 		try {
-			await axios({
-				method: 'POST',
-				url: `http://localhost:5000/video/addLike/${props.id}`,
-				headers: {
-					Authorization: 'Bearer ' + auth.token,
-				},
-				data: {
-					userId: userId,
-				},
-			}).then(() => {
-				if (userUsedLike) {
-					setLikeCounterState(() => likeCounterState - 1);
-					setUserUsedLike(false);
-					setIsLiked(() => false);
-				} else if (!userUsedLike) {
-					setLikeCounterState(() => likeCounterState + 1);
-					setUserUsedLike(true);
-					setIsLiked(() => true);
-				}
-			});
+			await axios
+				.post(`http://localhost:5000/video/addLike/${props.id}`, { userId: userId }, customConfig)
+				.then(() => {
+					if (userUsedLike) {
+						setLikeCounterState(() => likeCounterState - 1);
+						setUserUsedLike(false);
+						setIsLiked(() => false);
+					} else if (!userUsedLike) {
+						setLikeCounterState(() => likeCounterState + 1);
+						setUserUsedLike(true);
+						setIsLiked(() => true);
+					}
+				});
 		} catch (err) {
 			setIsLiked((prev) => prev);
 		}

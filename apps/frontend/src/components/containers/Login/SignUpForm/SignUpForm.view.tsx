@@ -9,6 +9,7 @@ import MainNavigation from '../../../layout/MainNavigation';
 import classes from './SignUpForm.module.scss';
 
 interface IProps {
+	readonly error: string;
 	readonly onSubmit: (_: FormikValues) => void | Promise<unknown>;
 }
 
@@ -38,6 +39,7 @@ const SignUpFormView: React.FC<IProps> = (props: React.PropsWithChildren<IProps>
 						</Form>
 					</Formik>
 				</div>
+				{props.error && <p className={classes.inputError}>nofawfawfjj</p>}
 			</MCard>
 		</section>
 	);

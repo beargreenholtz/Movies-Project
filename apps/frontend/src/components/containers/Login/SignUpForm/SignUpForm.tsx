@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import axios from 'axios';
+import axios, { type AxiosError } from 'axios';
 
 import type { FormikValues } from 'formik';
 import { AuthContext } from '../../../../context/authContext';
@@ -10,6 +10,7 @@ import SignUpFormView from './SignUpForm.view';
 interface IProps {}
 
 const SignUpForm: React.FC<IProps> = () => {
+	const [error, setError] = useState<string>('');
 	const auth = useContext(AuthContext);
 	const navigate = useNavigate();
 
@@ -19,10 +20,20 @@ const SignUpForm: React.FC<IProps> = () => {
 				auth.login(res.data.userId, res.data.token);
 				navigate('/');
 			});
-		} catch (err) {}
+		} catch (err) {
+			if (axios.isAxiosError(error)) {
+				const serverError = error as AxiosError<{ message: string }>;
+
+				if (serverError && serverError.response) {
+					const err = serverError.response.data.message;
+
+					setError(err);
+				}
+			}
+		}
 	};
 
-	return <SignUpFormView onSubmit={onSubmit} />;
+	return <SignUpFormView error={error} onSubmit={onSubmit} />;
 };
 
 SignUpForm.displayName = 'SignUpForm';

@@ -1,7 +1,7 @@
 {
-	"name": "backend",
+	"name": "app",
 	"version": "1.0.0",
-	"description": "Movie-Project backend files",
+	"description": "Movie-Project App files",
 	"main": "index.js",
 	"private": true,
 	"scripts": {

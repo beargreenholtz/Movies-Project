@@ -14,7 +14,7 @@ const App: React.FC<IProps> = () => {
 		(uid: React.SetStateAction<string | null>, token: string | null, expirationDate?: Date) => {
 			setToken(token);
 			setUserId(uid);
-			const tokenExpartionDate = expirationDate || new Date(new Date().getTime() + 1000 * 60);
+			const tokenExpartionDate = expirationDate || new Date(new Date().getTime() + 1000 * 60 * 60);
 
 			localStorage.setItem(
 				'userData',
@@ -46,17 +46,17 @@ const App: React.FC<IProps> = () => {
 		isLoggedIn: boolean;
 		userId: string | null;
 		token: string | null;
+		isLiked: boolean | null;
 		login: (_: React.SetStateAction<string | null>, token: string, expirationDate?: Date) => void;
 		logout: () => void;
-		isLiked: boolean | null;
 		setLikedAuth: (_: boolean | null) => void;
 	} = {
 		isLoggedIn: !!token,
 		token: token,
-		login: login,
-		logout: logout,
 		userId: userId,
 		isLiked: isLiked,
+		login: login,
+		logout: logout,
 		setLikedAuth: setLikedAuth,
 	};
 

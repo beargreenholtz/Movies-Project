@@ -2,66 +2,47 @@
 
 @use '@/styles/variables.scss';
 
-
-
-.signInText {
-	position: absolute;
-	font-size: map.get(variables.$sizes, spacing-xl);
-}
-
-.signInCard {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 500px;
-	height: 500px;
-
-}
-
-.signUpForm {
+.videoForm {
 	display: flex;
 	flex-direction: column;
-	width: 400px;
+	align-items: center;
+	width: 100%;
 
 	& input {
 		box-sizing: border-box;
-		width: 100%;
+		width: 500px;
 		padding: map.get(variables.$sizes, spacing-l);
 		margin-bottom: map.get(variables.$sizes, spacing-l);
-		font-size: map.get(variables.$sizes, spacing-l);
+		font-size: 1.4rem;
 		color: map.get(variables.$colors, primary-black);
 		background-color: map.get(variables.$colors, primary-white);
 		border: 2px solid #a0aec0;
 	}
 
-
-	& button {
-		width: 100%;
+	& textarea {
+		box-sizing: border-box;
+		width: 500px;
+		height: 150px;
 		padding: map.get(variables.$sizes, spacing-l);
 		font-size: map.get(variables.$sizes, spacing-l);
+		resize: none;
+		background-color: map.get(variables.$colors, primary-white);
+		border: 2px solid #a0aec0;
+	}
+
+	& .addMovieBtn {
+		width: 50%;
+		padding: map.get(variables.$sizes, spacing-l);
+		margin-top: map.get(variables.$sizes, spacing-xl);
+		font-size: 1.4rem;
 		color: map.get(variables.$colors, primary-white);
 		background-color: map.get(variables.$colors, accent-red);
 		border: none;
 	}
 
 	& label {
-		font-size: map.get(variables.$sizes, spacing-l);
+		font-size: 1.5rem;
 	}
 
 
-}
-
-
-.container {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	white-space: pre-line;
-
-	.inputError {
-		font-size: map.get(variables.$sizes, spacing-xl);
-		color: map.get(variables.$colors, accent-red);
-
-	}
 }

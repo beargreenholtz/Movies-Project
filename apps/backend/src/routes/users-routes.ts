@@ -11,10 +11,7 @@ router.post(
 	'/signup',
 	[
 		check('name').not().isEmpty(),
-		check('email')
-			// Test@test.com => test@test.com
-			.normalizeEmail()
-			.isEmail(),
+		check('email').normalizeEmail().isEmail(),
 		check('password').isLength({ min: 6 }),
 	],
 	signup,

@@ -7,16 +7,7 @@ import type { RequestHandler } from 'express';
 import HttpError from '../models/http-error';
 import User from '../models/user';
 
-interface IUser {
-	toObject(_: { getters: boolean }): unknown;
-	_id: string;
-	name: string;
-	email: string;
-	__v: unknown;
-	id?: string;
-	password?: string;
-	videos: string[];
-}
+import type { IUser } from '../interfaces/user';
 
 export const getUsers: RequestHandler = async (_, res, next) => {
 	let users: IUser[];
@@ -68,7 +59,7 @@ export const signup: RequestHandler = async (req, res, next) => {
 	} catch (err) {
 		const error = new HttpError('Could not create user, please try again ', 500);
 
-		throw error;
+		return next(error);
 	}
 
 	const createdUser = new User({
@@ -86,7 +77,7 @@ export const signup: RequestHandler = async (req, res, next) => {
 		return next(error);
 	}
 
-	let token: unknown;
+	let token: string;
 
 	try {
 		token = jwt.sign({ userId: createdUser.id, email: createdUser.email }, 'supersecret_dont_share', {
