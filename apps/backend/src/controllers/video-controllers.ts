@@ -53,12 +53,18 @@ export const getAllVideos: RequestHandler = async (_, res, next) => {
 	});
 };
 
-export const createVideo: RequestHandler = async (req, res, next) => {
+export const createVideo: RequestHandler = async (req: RequestWithUserData, res, next) => {
 	const title = req.body['title'] as string;
 	const description = req.body['description'] as string;
 	const genre = req.body['genre'] as string;
 	const vidurl = req.body['vidurl'] as string;
 	const creator = req.body['creator'] as string;
+
+	if (creator !== req.userData?.userId) {
+		const error = new HttpError('You are not allowed to create this place ', 401);
+
+		return next(error);
+	}
 
 	const createdVideo = new Video({
 		title,
@@ -158,6 +164,12 @@ export const addLike: RequestHandler = async (req: RequestWithUserData, res, nex
 	let video: IVideo | null;
 
 	const userId = req.body['userId'] as string;
+
+	if (userId !== req.userData?.userId) {
+		const error = new HttpError('You are not allowed to like this place ', 401);
+
+		return next(error);
+	}
 
 	if (!userId) {
 		const error = new HttpError('Missing User Id', 400);

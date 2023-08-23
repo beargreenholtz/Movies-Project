@@ -107,7 +107,7 @@ const Intro: React.FC<IProps> = (props: React.PropsWithChildren<IProps>) => {
 	if (videoid !== null) {
 		youtubeId = videoid[1];
 	} else {
-		youtubeId = 'QooHGgsMK8k';
+		youtubeId = 'Rh3tobg7hEo';
 	}
 
 	return (
