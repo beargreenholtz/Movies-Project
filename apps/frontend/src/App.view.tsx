@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import AppRouter from './App.router';
@@ -7,7 +7,9 @@ interface IProps {}
 
 const AppView: React.FC<IProps> = () => (
 	<BrowserRouter>
-		<AppRouter />
+		<Suspense fallback={null}>
+			<AppRouter />
+		</Suspense>
 	</BrowserRouter>
 );
 
