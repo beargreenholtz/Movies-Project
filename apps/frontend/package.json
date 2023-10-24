@@ -53,7 +53,7 @@
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"hygen": "^6.2.11",
 		"sass": "1.58.3",
-		"stylelint": "14.16.1",
+		"stylelint": "15.11.0",
 		"stylelint-config-prettier-scss": "0.0.1",
 		"stylelint-config-recess-order": "3.1.0",
 		"stylelint-config-standard-scss": "6.1.0",
