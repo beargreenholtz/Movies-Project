@@ -21,7 +21,7 @@
 	"author": "Bear Greenholtz",
 	"license": "UNLICENSED",
 	"devDependencies": {
-		"@commitlint/cli": "17.4.4",
+		"@commitlint/cli": "17.8.1",
 		"@typescript-eslint/eslint-plugin": "5.54.1",
 		"@typescript-eslint/parser": "5.54.1",
 		"commitizen": "4.3.0",
