@@ -127,7 +127,7 @@ importers:
       react-dom: ^18.2.0
       react-router-dom: ^6.4.3
       react-transition-group: ^4.4.5
-      sass: 1.58.3
+      sass: 1.72.0
       socket.io-client: ^4.5.4
       stylelint: 14.16.1
       stylelint-config-prettier-scss: 0.0.1
@@ -162,14 +162,14 @@ importers:
       eslint-plugin-react-hooks: 4.6.0_eslint@8.30.0
       eslint-plugin-unused-imports: 2.0.0_tudeod65itqhabh2rxyl2hi46m
       hygen: 6.2.11
-      sass: 1.58.3
+      sass: 1.72.0
       stylelint: 14.16.1
       stylelint-config-prettier-scss: 0.0.1_stylelint@14.16.1
       stylelint-config-recess-order: 3.1.0_stylelint@14.16.1
       stylelint-config-standard-scss: 6.1.0_stylelint@14.16.1
       stylelint-declaration-strict-value: 1.9.2_stylelint@14.16.1
       typescript: 4.9.4
-      vite: 4.1.4_sass@1.58.3
+      vite: 4.1.4_sass@1.72.0
       vite-plugin-eslint: 1.8.1_eslint@8.30.0+vite@4.1.4
 
 packages:
@@ -2287,7 +2287,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.19.6_@babel+core@7.20.12
       magic-string: 0.27.0
       react-refresh: 0.14.0
-      vite: 4.1.4_sass@1.58.3
+      vite: 4.1.4_sass@1.72.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4719,7 +4719,7 @@ packages:
     resolution: {integrity: sha512-oWb1Z6mkHIskLzEJ/XWX0srkpkTQ7vaopMQkyaEIoq0fmtFVxOthb8cCxeT+p3ynTdkk/RZwbgG4brR5BeWECw==}
     engines: {node: '>= 4.0'}
     os: [darwin]
-    deprecated: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+    deprecated: The v1 package contains DANGEROUS / INSECURE binaries. Upgrade to safe fsevents v2
     requiresBuild: true
     dependencies:
       bindings: 1.5.0
@@ -7466,9 +7466,9 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /sass/1.58.3:
-    resolution: {integrity: sha512-Q7RaEtYf6BflYrQ+buPudKR26/lH+10EmO9bBqbmPh/KeLqv8bjpTNqxe71ocONqXq+jYiCbpPUmQMS+JJPk4A==}
-    engines: {node: '>=12.0.0'}
+  /sass/1.72.0:
+    resolution: {integrity: sha512-Gpczt3WA56Ly0Mn8Sl21Vj94s1axi9hDIzDFn9Ph9x3C3p4nNyvsqJoQyVXKou6cBlfFWEgRW4rT8Tb4i3XnVA==}
+    engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
       chokidar: 3.5.3
@@ -8666,10 +8666,10 @@ packages:
       '@types/eslint': 8.4.10
       eslint: 8.30.0
       rollup: 2.79.1
-      vite: 4.1.4_sass@1.58.3
+      vite: 4.1.4_sass@1.72.0
     dev: true
 
-  /vite/4.1.4_sass@1.58.3:
+  /vite/4.1.4_sass@1.72.0:
     resolution: {integrity: sha512-3knk/HsbSTKEin43zHu7jTwYWv81f8kgAL99G5NWBcA1LKvtvcVAC4JjBH1arBunO9kQka+1oGbrMKOjk4ZrBg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -8698,7 +8698,7 @@ packages:
       postcss: 8.4.21
       resolve: 1.22.1
       rollup: 3.14.0
-      sass: 1.58.3
+      sass: 1.72.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
